@@ -1,0 +1,37 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+
+RewriteRule ^daqdocs/?$ docs/ [L]
+RewriteRule ^daqdocs/(.*)$ docs/$1 [L]
+
+RewriteRule ^docs/electronics_old\.php$ docs/electronics_old.pdf [L]
+RewriteRule ^docs/guide1\.2_linux\.php$ docs/guide1.2_linux.pdf [L]
+RewriteRule ^docs/slow_mpc\.php$ docs/slow_mpc.pdf [L]
+RewriteRule ^docs/remote_connections\.php$ docs/remote_connections.pdf [L]
+
+RewriteRule ^fadc_2010_2012/FADC_config_module_description\.php$ fadc_2010_2012/docs/FADC_config_module_description.pdf [L]
+RewriteRule ^fadc_2010_2012/FADC_config_module_description\.notes$ fadc_2010_2012/docs/FADC_config_module_description.pdf [L]
+RewriteRule ^fadc_2010_2012/signals_connection\.php$ fadc_2010_2012/docs/signals_connection.pdf [L]
+RewriteRule ^fadc_2010_2012/start_coda\.php$ fadc_2010_2012/docs/start_coda.pdf [L]
+RewriteRule ^fadc_2010_2012/updates/fadc_upgrade\.php$ fadc_2010_2012/docs/fadc_upgrade.pdf [L]
+RewriteRule ^fadc_2010_2012/updates/note_30Mar2011\.php$ fadc_2010_2012/docs/note_30Mar2011.pdf [L]
+RewriteRule ^fadc_2010_2012/updates/?$ fadc_2010_2012/docs/ [L]
+RewriteRule ^fadc_2010_2012/updates/(.*)$ fadc_2010_2012/docs/$1 [L]
+RewriteRule ^fadc_2010_2012/analyzer\.php$ fadc_2010_2012/docs/note_30Mar2011.pdf [L]
+RewriteRule ^fadc_2010_2012/analyzer\.pdf$ fadc_2010_2012/docs/note_30Mar2011.pdf [L]
+RewriteRule ^fadc_2010_2012/tips\.php$ fadc_2010_2012/ [L]
+RewriteRule ^fadc_2010_2012/tips\.pdf$ fadc_2010_2012/ [L]
+RewriteRule ^fadc_2010_2012/plots/res_2558-2563\.gif$ ../data/old/plots/res_2558-2563.gif [L]
+RewriteRule ^fadc_2010_2012/plots/res_2558-2563_current\.gif$ ../data/old/plots/res_2558-2563_current.gif [L]
+RewriteRule ^fadc_2010_2012/plots/res_2558-2563_curcomp\.gif$ ../data/old/plots/res_2558-2563_curcomp.gif [L]
+RewriteRule ^fadc_2010_2012/plots/res_2567-2572\.gif$ ../data/old/plots/res_2567-2572.gif [L]
+RewriteRule ^fadc_2010_2012/res/res_table_2558-2572\.txt$ ../data/old/tab/res_table_2558-2572.txt [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^fadc_2010_2012/([^/]+)$ fadc_2010_2012/docs/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^bcm/([^/]+)$ bcm/docs/$1 [L]

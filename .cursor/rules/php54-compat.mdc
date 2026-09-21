@@ -1,0 +1,29 @@
+---
+description: PHP 5.4 syntax for hallaweb / Docker preview
+globs: mollerWeb/**/*.php
+alwaysApply: false
+---
+
+# PHP 5.4
+
+Target **PHP 5.4** (Docker + hallaweb). Host PHP 8 lint is not enough. Prefer shims in `_includes/compat.php` (loaded from bootstrap). Short `[]` is OK.
+
+| Avoid | Use |
+|-------|-----|
+| Scalar/return types | Untyped params/returns |
+| `$a ?? $b` | `isset($a) ? $a : $b` |
+| `fn($x) => …` | `function ($x) { return …; }` |
+| `catch (Throwable` | `catch (Exception` |
+| `DateTimeImmutable` | `DateTime` |
+| `...$rows` unpack | `foreach` / `array_merge` |
+| `[$a, $b] = …` | `list($a, $b) = …` |
+| `intdiv`, `array_column` | `(int) ($a / $b)`, `foreach` |
+
+`str_starts_with` / `str_ends_with` / `str_contains` / `array_key_*` only via `compat.php`. Experiment apps do not load bootstrap — do not call those helpers there.
+
+Nowdoc closer is `HTML` or `HTML;`, never `HTML,`. Closure `use ($a, $b)` needs the closing `)` before `{`.
+
+```bash
+docker exec mollerweb3_web php -l /var/www/html/path/to/file.php
+```
+---

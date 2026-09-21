@@ -1,0 +1,20 @@
+DATA ntuple (moller_data_RNNB.nt)
+
+   // Declaration of leaf types
+   UShort_t        irun;       // Run number
+   UChar_t         idtyp;      // CODA event data type =16
+   UChar_t         ievtyp;     // CODA event type =1
+   Int_t           iret;       // status word 5
+   UChar_t         itrig[8];   // TI trigger input register bits:0-7
+   Int_t           itick;      // VME CPU Clock 120Hz
+   Int_t           nadc;       // Number of ADC channels =12
+   UShort_t        iadc[36];   // ADC data[chan]
+   Int_t           ntdc;       // Number of TDC channels (16x32)
+   UShort_t        itch[4096]; // TDC channels list with hits 
+   UShort_t        itim[4096]; // TDC time data[] for channel in itch[]
+   UChar_t         ited[4096]; // TDC pulse edge to measure (=1-leading edge)
+   Int_t           nhcha;      // number of hits for TDC channels: 1-5,17,18,19,20 with some cuts
+   UShort_t        ihit[10];   // hits data[]
+   Int_t           nsca;       // Number of scaler channels =32
+   Int_t           isca[33];   // Scalers data[chan]
+

@@ -1,0 +1,45 @@
+# Local preview of mollerWeb (the site we are building).
+# Project name avoids colliding with MolPol-FADC-Web's docker/ compose project.
+#
+# MariaDB is a local stand-in for halladb / hamolpol. Drop real schema SQL into
+# db/init/ (see db/README.md). Init scripts run only on first volume create.
+
+name: mollerweb3
+
+services:
+  moller-web:
+    build: .
+    container_name: mollerweb3_web
+    restart: unless-stopped
+    ports:
+      # Host 8080/8081 are taken (local Apache); 8090 is MolPol-FADC-Web.
+      - "9001:80"
+    environment:
+      MOLPOL_USE_TESTING_DB: "1"
+      MOLPOL_DB_HOST: moller-db
+      MOLPOL_DB_USER: hamolpol_webread
+      MOLPOL_DB_PASSWORD: localdev
+      MOLPOL_DB_NAME: hamolpol
+    volumes:
+      - ../mollerWeb:/var/www/html
+    depends_on:
+      - moller-db
+
+  moller-db:
+    image: mariadb:10.11
+    container_name: mollerweb3_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: localroot
+      MYSQL_DATABASE: hamolpol
+      MYSQL_USER: hamolpol_webread
+      MYSQL_PASSWORD: localdev
+    ports:
+      # Optional host access for GUI clients / SHOW CREATE TABLE pastes.
+      - "3308:3306"
+    volumes:
+      - mollerweb3_dbdata:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  mollerweb3_dbdata:

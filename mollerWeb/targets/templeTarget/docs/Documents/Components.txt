@@ -1,0 +1,35 @@
+Moller High Field Target Arm
+List of Components
+
+Motor (Rotation)
+Oriental Motor PKP244D15B-L
+http://catalog.orientalmotor.com/item/stepping-motors--1068/pk-series-stepping-motors/pkp245d15b-l?
+
+Motor (Translation)
+Autonics A4K-M245
+http://www.grainger.com/product/AUTONICS-2-Phase-5PFF2
+
+Stepping Motor Drive (Rotation)
+Stepperonline.com M6128
+http://www.omc-stepperonline.com/bipolar-stepper-motor-driver-max-2a-current-128-high-subdivision-st6128-p-245.html
+
+Stepping Motor Drive (Translation)
+Stepperonline.com DM422C
+http://www.omc-stepperonline.com/leadshine-dm422c-digital-stepper-driver-2040vdc-with-0322a-p-75.html
+
+Rotary Potentiometer (Rotation)
+Bourns 6538S-1-103
+http://www.mouser.com/ds/2/54/6537-73306.pdf
+
+String Potentiometer (Translation)
+Unimeasure LX-PA-25
+http://www.unimeasure.com/obj--pdf/lx-pa.pdf
+
+Interlock Switches
+Honeywell 11SM1
+http://sensing.honeywell.com/product-page?pr_id=28782
+
+
+
+			
+

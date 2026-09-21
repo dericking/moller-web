@@ -1,0 +1,455 @@
+@charset "utf-8";
+/* PREX-II / experiment data pages — local chrome (no W3.CSS).
+ * Visual cues from sister dashboard SAMPLE-CSS-STYLING.css.
+ *
+ * Tunables: --page-gutter, --table-pad-y, --table-pad-x, --table-font
+ */
+
+:root {
+  /* Palette — keep in sync with mollerWeb/_assets/style.css */
+  --white:  #ffffff;
+  --paper:  #fcfbfa;
+  --mist:   #b8bfc1;
+  --granite:#6b675e;
+  --navy:   #2c3e50;
+  --deepsea:#1a252f;
+  --ink:    #26241f;
+  --shadow: #26241f96;
+  --glow:   #00d2d3;
+  --blue:   #01377d;
+
+  /* Compat aliases for rules below */
+  --ink-soft: var(--granite);
+  --accent: var(--blue);
+  --rule: var(--granite);
+
+  /* Data page roles (point at palette) */
+  --table-bg: var(--paper);
+  --table-head-bg: var(--navy);
+  --table-head-text: var(--white);
+  --table-row-alt: var(--paper);
+  --table-group-head-bg: var(--table-head-bg);
+  --table-runs-head-bg: var(--table-head-bg);
+  --table-day-head-bg: var(--table-head-bg);
+
+  --site-nav-bg: var(--deepsea);
+  --site-nav-text: var(--white);
+  --site-nav-current: var(--deepsea);
+  --site-nav-current-text: var(--white);
+  --site-nav-hover: var(--mist);
+  --site-nav-hover-text: var(--ink);
+  --site-nav-border: var(--deepsea);
+
+  --page-gutter: 1.5rem; /* content-only left/right inset (header/footer full bleed) */
+  --table-font: 0.75rem;
+  --table-pad-y: 0.35em;   /* cell padding — adjust here */
+  --table-pad-x: 0.35rem;
+  --font-display: "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-ui: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  background: #f6f4ef;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f6f4ef;
+  background: var(--paper);
+  color: #26241f;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--deepsea);
+  text-decoration: underline;
+}
+
+h2 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin: 1rem 0 0.75rem;
+  padding-bottom: 0;
+  border-bottom: 1px solid var(--ink);
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+}
+.exp-main h1 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1.35rem;
+  margin: 1rem 0 0.75rem;
+  padding-bottom: 0;
+}
+
+/* ---- Page chrome ---- */
+/* Side gutters: paper shows left/right of the whole page column. */
+body.exp-page {
+  min-height: 100vh;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.exp-topnav,
+.exp-datanav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #2c3e50;
+  background-color: var(--site-nav-bg);
+  color: #ffffff;
+  color: var(--site-nav-text);
+  border-bottom: 2px solid #1a252f;
+  border-bottom: 2px solid var(--site-nav-border);
+  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+.exp-topnav a,
+.exp-datanav a {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 0px;
+  flex: 1 1 0;
+  display: block;
+  text-align: center;
+  padding: 0.7rem 0.85rem;
+  color: #ffffff !important;
+  background-color: #2c3e50;
+  background-color: var(--site-nav-bg);
+  text-decoration: none !important;
+  white-space: nowrap;
+  border-right: 1px solid #1a252f;
+  border-right: 1px solid var(--site-nav-border);
+}
+.exp-topnav a:last-child,
+.exp-datanav a:last-child {
+  border-right: 0;
+}
+.exp-topnav a:hover,
+.exp-datanav a:hover,
+.exp-topnav a:focus-visible,
+.exp-datanav a:focus-visible {
+  background-color: var(--site-nav-hover) !important;
+  color: var(--site-nav-hover-text) !important;
+  text-decoration: none !important;
+  outline: none;
+}
+
+/* Logo | title on one row (table layout is reliable without flex). */
+.exp-titlebar {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 0;
+  margin: 0;
+}
+.exp-titlebar .exp-titlebar-logo,
+.exp-titlebar .exp-titlebar-text {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0.5rem 1rem;
+}
+.exp-titlebar .exp-titlebar-logo {
+  width: 1%;
+  white-space: nowrap;
+}
+.exp-titlebar img {
+  display: block;
+  height: 96px;
+  width: auto;
+  border: 0;
+  margin: 0;
+}
+.exp-titlebar h1 {
+  margin: 0;
+  padding: 0;
+  color: #ffffff !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.exp-main {
+  margin: 0;
+  padding: 0.25rem var(--page-gutter) 1.5rem;
+}
+
+.plots-hold {
+  min-height: 2.5rem;
+  margin: 0.35rem 0 1.25rem;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.plots-hold .plots-empty {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+}
+
+.plots-hold .plot-image {
+  max-width: 100%;
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.exp-footer {
+  margin: 0;
+  padding: 0.5rem var(--page-gutter) 1.5rem;
+  color: #6b675e;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  border-top: 1px solid #c8c2b4;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---- Data tables ---- */
+/*
+ * Markup contract (all tables use class="data-table"):
+ *   tr.data-table-head  — column header row (Group#, Run, Type, …)
+ *   tr.data-table-cols  — secondary header row (index day tables, fit summary)
+ *   tr (plain)          — data rows
+ *
+ * Table type modifiers (style headers/body separately if needed):
+ *   data-table-group  — group analysis summary
+ *   data-table-runs   — per-run listings
+ *   data-table-day    — compact day summary on index
+ *   data-table-fit    — content-width (fit summary)
+ */
+
+table.data-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+  background: var(--table-bg);
+  border: 1px solid var(--ink);
+  font-size: var(--table-font);
+  font-family: var(--font-mono);
+  line-height: 1.25;
+  margin: 0 0 0.85rem;
+}
+
+table.data-table-fit {
+  width: auto;
+  max-width: 100%;
+}
+
+table.data-table-settings {
+  width: auto;
+  min-width: 25%;
+  max-width: 100%;
+}
+
+/* Body cells */
+table.data-table td {
+  padding: var(--table-pad-y) var(--table-pad-x);
+  border: 1px solid var(--ink);
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  background: var(--table-bg);
+  color: var(--ink);
+}
+
+/* Header cells — all header rows share base th styling */
+table.data-table th,
+table.data-table tr.data-table-head th,
+table.data-table tr.data-table-cols th {
+  padding: var(--table-pad-y) var(--table-pad-x);
+  border: 1px solid var(--ink);
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  background: var(--table-head-bg);
+  color: var(--table-head-text);
+  font-weight: 600;
+}
+
+/* Per-table-type header hooks (edit these to differentiate group vs runs) */
+table.data-table-group tr.data-table-head th {
+  background: var(--table-group-head-bg);
+}
+table.data-table-runs tr.data-table-head th {
+  background: var(--table-runs-head-bg);
+}
+table.data-table-day tr.data-table-head th,
+table.data-table-day tr.data-table-cols th {
+  background: var(--table-day-head-bg);
+}
+
+/* Zebra striping: data rows only (skip header rows) */
+table.data-table tbody tr:not(.data-table-head):not(.data-table-cols):nth-child(even) td,
+table.data-table > tbody > tr:not(.data-table-head):not(.data-table-cols):nth-child(even) td {
+  background: var(--table-row-alt);
+}
+
+table.data-table a {
+  color: var(--accent);
+}
+
+table.data-table th a {
+  color: var(--table-head-text) !important;
+  text-decoration: underline;
+}
+
+table.data-table th a:hover {
+  color: var(--glow) !important;
+}
+
+/* Day summary grids on index — max 4 equal columns */
+.list-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+.day-tables {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem 1rem;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+.day-table-wrap {
+  min-width: 0;
+  overflow-x: auto;
+}
+.day-table-wrap .data-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+@media (max-width: 1100px) {
+  .day-tables { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 800px) {
+  .day-tables { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .day-tables { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Run prev/next */
+.run-heading-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+.run-heading-row h2 {
+  margin: 1rem 0 0.75rem;
+}
+.run-button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.75rem 0 1rem;
+}
+.runbutton {
+  padding: 0.45rem 1rem;
+  border: 1px solid #313131;
+  font: bold 0.85rem/1.4 var(--font-ui);
+  color: #fff;
+  background: var(--navy);
+  cursor: pointer;
+}
+.runbutton:hover {
+  background: #d8a300;
+  color: var(--ink);
+}
+
+.anpowerror,
+.qpederror {
+  background: #f0ddd7 !important;
+  color: #b3492f;
+  font-weight: 700;
+}
+.accidentalwarning,
+.table-legend-swatch-accidental {
+  background: #f3e8d2 !important;
+  color: #c08a2e;
+  font-weight: 700;
+}
+
+.table-color-legend {
+  margin: 0.35rem 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.table-legend-swatch {
+  display: inline-block;
+  min-width: 1.1rem;
+  padding: var(--table-pad-y) var(--table-pad-x);
+  border: 1px solid var(--ink);
+  vertical-align: middle;
+  margin-right: 0.4rem;
+  text-align: center;
+}
+
+#errortable {
+  border-collapse: collapse;
+  border: 1px solid var(--ink);
+  background: var(--table-bg);
+  font-family: var(--font-mono);
+  font-size: var(--table-font);
+}
+#errortable td {
+  padding: var(--table-pad-y) var(--table-pad-x);
+  border: 1px solid var(--ink);
+}
+
+@media (max-width: 720px) {
+  :root { --page-gutter: 1rem; }
+  .exp-main {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .exp-titlebar h1 { font-size: 1.5rem; }
+  .exp-titlebar img { height: 64px; }
+  .exp-topnav,
+  .exp-datanav {
+    flex-wrap: wrap;
+  }
+  .exp-topnav a,
+  .exp-datanav a {
+    flex: 1 1 45%;
+    font-size: 0.85rem;
+  }
+}

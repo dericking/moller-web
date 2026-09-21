@@ -1,0 +1,109 @@
+< Run Number : 14601  
+---
+> Run Number : 14604  
+3c3
+< Date       : Sun May 16 05:13:48 EDT 2010
+---
+> Date       : Sun May 16 05:34:35 EDT 2010
+6c6
+< # Date 05:13:49 AM May 16, 2010
+---
+> # Date 05:34:35 AM May 16, 2010
+64,69c64,69
+< Target Ion Chamber, rad              SLD1H03GDOSC         : 5                    
+< Beam Current Average                 hac_bcm_average      : 1.07891              
+< Current on Unser monitor             hac_unser_current    : 20.5478              
+< Current on Upstream bcm              hac_bcm_dvm1_current : 1.13331              
+< Current on Downstream bcm            hac_bcm_dvm2_current : 1.02452              
+< Injector Full Current Monitor 02     IBC0L02Current       : 1.14374              
+---
+> Target Ion Chamber, rad              SLD1H03GDOSC         : 4                    
+> Beam Current Average                 hac_bcm_average      : 1.0841               
+> Current on Unser monitor             hac_unser_current    : 20.6163              
+> Current on Upstream bcm              hac_bcm_dvm1_current : 1.14151              
+> Current on Downstream bcm            hac_bcm_dvm2_current : 1.02669              
+> Injector Full Current Monitor 02     IBC0L02Current       : 1.14769              
+72,74c72,74
+< Injector Full Current Monitor        IBC0L02Current       : 1.14374              
+< Injector Current Monitor Hall A      IBC1H04CRCUR2        : 1.11                 
+< Injector Current Monitor Hall B      IPM2C24A.IENG        : 5.10048              
+---
+> Injector Full Current Monitor        IBC0L02Current       : 1.14769              
+> Injector Current Monitor Hall A      IBC1H04CRCUR2        : 1.14                 
+> Injector Current Monitor Hall B      IPM2C24A.IENG        : 5.83512              
+76,78c76,78
+< Beam Position BPM01  X, mm           IPM1H01.XPOS         : -0.0838701           
+< Beam Position BPM01  Y, mm           IPM1H01.YPOS         : 0.027282             
+< Beam Position BPM03A X, mm           IPM1P03A.XPOS        : -0.698531            
+---
+> Beam Position BPM01  X, mm           IPM1H01.XPOS         : -0.0899458           
+> Beam Position BPM01  Y, mm           IPM1H01.YPOS         : 0.0131579            
+> Beam Position BPM03A X, mm           IPM1P03A.XPOS        : -0.703672            
+80,84c80,84
+< Beam Position BPM04A X, mm           IPM1H04A.XPOS        : -0.0579334           
+< Beam Position BPM04A Y, mm           IPM1H04A.YPOS        : -0.117223            
+< Quad Q1 (Amps)                       MQM1H02M             : 73.8974              
+< Quad Q2 (Amps)                       MQO1H03M             : 1.45055              
+< Quad Q3 (Amps)                       MQO1H03AM            : 20.8718              
+---
+> Beam Position BPM04A X, mm           IPM1H04A.XPOS        : 0.0179843            
+> Beam Position BPM04A Y, mm           IPM1H04A.YPOS        : -0.0979893           
+> Quad Q1 (Amps)                       MQM1H02M             : 75.1868              
+> Quad Q2 (Amps)                       MQO1H03M             : 2.73993              
+> Quad Q3 (Amps)                       MQO1H03AM            : 21.1136              
+87,90c87,90
+< LHe temperature                      HAMOELTEMP8          : 4.827                
+< LHe level                            CLL75M105            : 37.9976              
+< LNe level                            CLL75M110            : 68.6691              
+< LHe duar level                       CLL75D105            : 50.4762              
+---
+> LHe temperature                      HAMOELTEMP8          : 4.825                
+> LHe level                            CLL75M105            : 37.4603              
+> LNe level                            CLL75M110            : 67.9853              
+> LHe duar level                       CLL75D105            : 51.5507              
+92c92
+< Target Linear Position(V)            HAMOL_LENC1          : 2.28327              
+---
+> Target Linear Position(V)            HAMOL_LENC1          : 2.28083              
+104c104
+< Laser attenuation Hall B             psub_ab_pos          : 96                   
+---
+> Laser attenuation Hall B             psub_ab_pos          : 95                   
+119c119
+< HWien field                          MWF0I02M             : -4.57977             
+---
+> HWien field                          MWF0I02M             : -4.58008             
+126,127c126,127
+< Pockels Cell Voltage 1               IGL1I00AI7           : 4.44689              
+< Pockels Cell Voltage 2               IGL1I00AI8           : 4.19536              
+---
+> Pockels Cell Voltage 1               IGL1I00AI7           : 4.53236              
+> Pockels Cell Voltage 2               IGL1I00AI8           : 4.31258              
+129,130c129,130
+< Seed Temperature ADC Hall B          IGL1I00AI14          : 0.993895             
+< Seed Temperature ADC Hall C          IGL1I00AI15          : 0.998779             
+---
+> Seed Temperature ADC Hall B          IGL1I00AI14          : 0.996337             
+> Seed Temperature ADC Hall C          IGL1I00AI15          : 0.996337             
+133,138c133,138
+< Beam Position BPM02A X, mm           IPM1P02A.XPOS        : -0.0423789           
+< Beam Position BPM02A Y, mm           IPM1P02A.YPOS        : 1.10286              
+< Beam Position BPM02B X, mm           IPM1P02B.XPOS        : -0.0952007           
+< Beam Position BPM02B Y, mm           IPM1P02B.YPOS        : 0.69393              
+< Beam Position BPM04B X, mm           IPM1H04B.XPOS        : -0.0896761           
+< Beam Position BPM04B Y, mm           IPM1H04B.YPOS        : -0.124514            
+---
+> Beam Position BPM02A X, mm           IPM1P02A.XPOS        : -0.0313759           
+> Beam Position BPM02A Y, mm           IPM1P02A.YPOS        : 1.04578              
+> Beam Position BPM02B X, mm           IPM1P02B.XPOS        : -0.0927993           
+> Beam Position BPM02B Y, mm           IPM1P02B.YPOS        : 0.666808             
+> Beam Position BPM04B X, mm           IPM1H04B.XPOS        : 0.125165             
+> Beam Position BPM04B Y, mm           IPM1H04B.YPOS        : -0.0686221           
+162c162
+< Moller Magnet Outside Hall Probe     Moller_LS450:FLD_DAT : 0.78744              
+---
+> Moller Magnet Outside Hall Probe     Moller_LS450:FLD_DAT : 0.78746              
+167c167
+< End Run Time : Sun May 16 05:19:36 EDT 2010
+---
+> End Run Time : Sun May 16 05:41:07 EDT 2010

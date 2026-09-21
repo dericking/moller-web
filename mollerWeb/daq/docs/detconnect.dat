@@ -1,0 +1,136 @@
+# Last update  17 Jun 2019
+# 2005 - encoders 
+# Cosmetic update  22 Apr 2008
+# Update with BPMs 17 Jun 2019
+#
+# Definitions: 
+# 30 Hz helicity flip rate:
+#        MPS - signal 250us long at the helicity change period, inverted
+#        QRT - signal 33 ms long for the 1-st window in a train (quadruplet)
+#
+#
+#
+Discriminator Module OrtecTD8000   CAMAC slot  1
+ inputs/outputs    signal
+   1             SumLeftLed
+   2             SumRightLed
+   3             SumLeftRight
+   4             ApertLeft
+   5             ApertRight
+   6             -
+   7             Sum from the 16xdiscriminator (8ns)
+
+Delay Module Lecroy4518            CAMAC slot  6
+ inputs/outputs    signal
+   1             SumLeftLed
+   2             SumRightLed
+   3             SumLeftRight
+   4             ApertLeft
+   5             ApertRight
+   6             SumLeftDelayed   (114ns cable delay installed 5 Apr 1998)
+   7             ApertLeftDelayed (114ns cable delay installed 5 Apr 1998)
+   8             Pulser
+   9             LED pulser
+  10             -
+  11             Sum from 16 x discrim (TD80000 out 7)
+  12             input: Trigger (from PLU out 8 0.5ns) output: -> ADC-2 gate
+   
+PLU Module Lecroy2365              CAMAC slot  11
+ inputs           signal
+   1             SumLeftLed
+   2             SumRightLed
+   3             SumLeftRight
+   4             ApertLeft
+   5             ApertRight
+   6             BCM
+   7             DelaySumLeftLed2
+   8             - faulty input (was DelayApertLeft2 before 4 Apr 99)
+   9             Sum from 16 x discrim (Delay out 11)
+   10            !MPS      from the counting house
+                 removed on 18/09/2002
+   11            Clock (100kHz) TimerGenerator 
+   12            DelayApertLeft2 (from 8/4/99)
+   13            MPS
+   14            TIR output 3 (starting with 1)
+   15            Pulser (used for the pulser mode) - 80ns - overlaps inp 1,2,..
+   16          	 a pulse for syncronisation with the LED (from the LED pulser)
+
+ outputs          signal
+   1             SingleLeft            * input(13)
+   2             SingleRight           * input(13)
+   3             Coinc                 * input(13)
+   4             Accidental coincidence* input(13)
+   5             BCM                   * input(13)
+   6             TimerGenerator        * input(13)
+   7             - (connected to scaler 6) detsetup  : LeftLG*LeftAppDelayed*input(13). 
+                                           LED setup : input(16)*input(13)
+   8             AdcGate               * input(13)  (gate width = 90ns)
+
+TDC 2277
+ inputs: first 16 = delay unit outputs
+   1             SumLeftLed
+   2             SumRightLed
+   3             SumLeftRight
+   4             ApertLeft
+   5             ApertRight
+   6             SumLeftDelayed   (114ns cable delay installed 5 Apr 1998)
+   7             ApertLeftDelayed (114ns cable delay installed 5 Apr 1998)
+   8             the pulser signal 
+   9             LED pulser
+  11             Sum 16 x discr
+  12             Trigger ADC-2 gate
+
+  18             Coincidence * PLUinput(13) * "delayed" helicity
+   
+  
+Scaler 1 Module LeCroy 1151E
+ inputs           signal
+   1             SingleLeftPl
+   2             SingleRightPl
+   3             CoincPl
+   4             AccidentalPl
+   5             BeamChargePl
+   6             PLU out 7; in LED setup - number of LED flashes
+   7             
+   8             
+   9             
+   10            (Helicity delayed)*Clock(100kHz) (from 22 jul 2003, run 10952)
+   11            !MPS
+   12            PLU out #6 (TimerGenarator * helicity window)
+   15            Clock TimerGenerator
+
+Scaler 2 Module LeCroy 1151E
+ inputs           signal
+   1             SingleLeftPl
+   2             SingleRightPl
+   3             CoincPl
+   4             AccidentalPl
+   5             SumLeftLG  delayed (from 08/09/99)
+   6             SumRightLG
+   7             SumLG
+   8             AppLeft    delayed
+   9             AppRight
+  10             +X- BPM 1H01 from VtoF convertor (since 06/13/2019)  # before: Encoder for linear  target motion (since 08/25/2005)
+  11             +X+ BPM 1H01 from VtoF convertor (since 06/13/2019)  # before: Encoder for lifting target motion (since 08/29/2005)
+  12             +Y+ BPM 1H01 from VtoF convertor (since 06/13/2019)
+  13             +Y- BPM 1H01 from VtoF convertor (since 06/13/2019)
+
+VME Trigger Interface
+   1  trigger 0  ADC gate
+   2          1   (!MPS) * live_time 100ns 
+   3          2 
+   4          3
+   5   input  A  -
+   6          B  Helicity delayed
+   7          1  live time
+   8          2  QRT (from 18/09/2002)
+
+      output
+   1          0   =1 - send a signal to reset the dead time (should be 1,0)
+   2          1   =0/1 - pulser off/on
+   3          2   - to input 14 of the PLU : disable trigger_1
+   6          5   =_|-|_ - strobe pulse(CLK) for latch DATA, loading to LED gen.  
+   7          6   =1/0 - disable/enable the pulser for LED (serial DATA output) -> ECL/NIM -> connector #20 on DAQ rack patch panel.
+   8          7   =0/1 - scaler gate off/on  
+
+

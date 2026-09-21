@@ -1,0 +1,36 @@
+#  Cables and pannels 
+#  Date 2010-04-13
+
+ == Signal ==      
+panel   cable
+ 1 - 16    1 - 16
+17 - 32   17 - 32
+33 - 48   33 - 48
+49 - 64   49 - 64
+
+Cable
+ 1 -  8    LG L,R
+
+ 9 - 10    Hod 01-02  (Hamamatsu H6568 (16 anods) x 2)
+11 - 17    Hod 17-23
+
+18 - 20    LED controls
+
+21 - 23    Hod 24 - 26
+24 - 29    Hod 03 - 08
+30 - 32    Hod 27 - 29
+
+33 - 40    Aperture scintillators L(33-36), R(37-40)
+
+42 - 49    Hod 09-16
+50 -       spare
+
+
+ == HV ==
+
+ 1 -  8     LG 1 -  8 (Photonics) (slot #5)
+ 9 - 10     empty (old Ap. scint L,R)
+13 - 20     Aperture scintillators L(13-16), R(17-20), Hamamatsu R4124 max:-1250V (slot #6)
+21 - 24     empty (slot #6)
+33 -        Hod  1 - 16 (PMT 16 channels) H6568 -800V (Slot 7, channel #8)
+34 -        Hod 17 - 32 (PMT 16 channels) H6568 -800V (Slot 7, channel #9)

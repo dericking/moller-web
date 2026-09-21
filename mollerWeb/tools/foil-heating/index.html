@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Møller Target Foil Heating Calculator</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --primary-color: #2b579a;
+      --border-radius: 8px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 700px;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h1 {
+      color: var(--primary-color);
+      margin-top: 0;
+      font-size: 24px;
+      text-align: center;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+    /* Two-column layout for input fields */
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    /* Equation display styling */
+    .formula-box {
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 15px;
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .formula-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .formula-expression {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 17px;
+      color: #111;
+      line-height: 1.6;
+    }
+    /* Results grid styling */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+      margin-bottom: 25px;
+    }
+    @media (min-width: 550px) {
+      .results-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .metric-card {
+      background: #f8f9fa;
+      padding: 12px 10px;
+      border-radius: 6px;
+      text-align: center;
+      border-left: 4px solid var(--primary-color);
+    }
+    .metric-label {
+      font-size: 11px;
+      color: #555;
+      margin-bottom: 6px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .metric-value {
+      font-size: 15px;
+      font-weight: bold;
+      color: #111;
+    }
+    .output-box {
+      background: #e8f4fd;
+      border-left: 4px solid #2196f3;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    .output-title {
+      font-weight: bold;
+      color: #0d47a1;
+      margin-bottom: 4px;
+    }
+    .success-box {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      border-radius: 4px;
+    }
+    .success-title {
+      font-weight: bold;
+      color: #1b5e20;
+      margin-bottom: 4px;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #eee;
+      margin: 25px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🎯 Møller Target Foil Heating Calculator</h1>
+  <p class="subtitle">Calculates the intensity-weighted average temperature rise for a circular iron (Fe) foil.</p>
+  
+  <div class="input-grid">
+    <div class="form-group">
+      <label for="E_beam">Beam Energy, E<sub>beam</sub> (GeV)</label>
+      <input type="number" id="E_beam" value="11" step="0.5" min="0.1">
+    </div>
+
+    <div class="form-group">
+      <label for="I_beam">Beam Current (µA)</label>
+      <input type="number" id="I_beam" value="1" step="0.1" min="0">
+    </div>
+    
+    <div class="form-group">
+      <label for="sigma_x">Beam Sigma X, &sigma;<sub>x</sub> (cm)</label>
+      <input type="number" id="sigma_x" value="0.01" step="0.001" min="0.0001">
+    </div>
+
+    <div class="form-group">
+      <label for="sigma_y">Beam Sigma Y, &sigma;<sub>y</sub> (cm)</label>
+      <input type="number" id="sigma_y" value="0.01" step="0.001" min="0.0001">
+    </div>
+    
+    <div class="form-group">
+      <label for="R_foil">Foil Radius, R<sub>foil</sub> (cm)</label>
+      <input type="number" id="R_foil" value="0.8255" step="0.01" min="0.01">
+    </div>
+    
+    <div class="form-group">
+      <label for="T0">Ambient Temperature, T<sub>0</sub> (K)</label>
+      <input type="number" id="T0" value="294" step="1" min="1">
+    </div>
+  </div>
+
+  <div class="formula-box">
+  <div class="formula-title">Temperature Rise Equation</div>
+  <div class="formula-expression">
+    $$\langle\Delta T\rangle = C \left( \frac{\ln(2) - \gamma_e}{2} + \ln\left( \frac{\sqrt{2} R_{\text{beam}}}{R_{\text{foil}}} \right) \right)$$
+  </div>
+</div>
+
+  <hr>
+
+  <h2>Results Summary</h2>
+  <div class="results-grid">
+    <div class="metric-card">
+      <div class="metric-label">Beam Radius (R<sub>beam</sub>)</div>
+      <div class="metric-value" id="out_rbeam">-</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Stopping Power &alpha;</div>
+      <div class="metric-value" id="out_alpha">-</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Thermal Conductivity &kappa;</div>
+      <div class="metric-value" id="out_kappa">-</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Constant C = -<sup>&alpha;&rho;</sup>&frasl;<sub>2&pi;&kappa;</sub></div>
+      <div class="metric-value" id="out_c">-</div>
+    </div>
+  </div>
+
+  <div class="output-box">
+    <div class="output-title">Average Thermal Rise Rate:</div>
+    <div id="out_rate">-</div>
+  </div>
+
+  <div class="success-box">
+    <div class="success-title">Calculated Core Profile:</div>
+    <div id="out_total">-</div>
+  </div>
+</div>
+
+<script>
+  function calculate() {
+    // Read user inputs
+    const E = parseFloat(document.getElementById('E_beam').value);
+    const sigma_x = parseFloat(document.getElementById('sigma_x').value);
+    const sigma_y = parseFloat(document.getElementById('sigma_y').value);
+    const R_foil = parseFloat(document.getElementById('R_foil').value);
+    const T0 = parseFloat(document.getElementById('T0').value);
+    const I_beam = parseFloat(document.getElementById('I_beam').value);
+
+    // Calculate geometric mean beam radius: R_beam = sqrt(sigma_x * sigma_y)
+    const R_beam = Math.sqrt(sigma_x * sigma_y);
+
+    // 1. Calculate stopping power alpha (MeV*cm^2/g) via 7th-degree polynomial
+    const x = E;
+    const alpha = 1.74865 
+                + 0.200654 * x 
+                - 0.096052 * Math.pow(x, 2) 
+                + 0.0286961 * Math.pow(x, 3) 
+                - 0.00508344 * Math.pow(x, 4) 
+                + 0.000520716 * Math.pow(x, 5) 
+                - 2.84424e-5 * Math.pow(x, 6) 
+                + 6.40169e-7 * Math.pow(x, 7);
+
+    // 2. Temperature-dependent thermal conductivity kappa(T)
+    const kappa = 1.2892 - 0.002046 * T0 + 1.4e-6 * Math.pow(T0, 2);
+
+    // 3. Scale factor C constant (Negative constant in Kelvin per microampere)
+    const rho = 7.874; // g/cm^3
+    const C_const = - (rho * alpha) / (2 * Math.PI * kappa);
+
+    // 4. Formula implementation
+    const gamma_e = 0.5772156649;
+    const term1 = (Math.log(2) - gamma_e) / 2;
+    const term2 = Math.log((Math.sqrt(2) * R_beam) / R_foil);
+    
+    const avg_dT_per_uA = C_const * (term1 + term2);
+    const total_dT = avg_dT_per_uA * I_beam;
+    const final_temp = T0 + total_dT;
+
+    // Update the layout fields
+    document.getElementById('out_rbeam').innerText = R_beam.toFixed(4) + " cm";
+    document.getElementById('out_alpha').innerText = alpha.toFixed(4) + " MeV·cm²/g";
+    document.getElementById('out_kappa').innerText = kappa.toFixed(4) + " W/(cm·K)";
+    document.getElementById('out_c').innerText = C_const.toFixed(4) + " K/µA";
+    document.getElementById('out_rate').innerText = avg_dT_per_uA.toFixed(2) + " K / µA of beam current.";
+    document.getElementById('out_total').innerText = "At " + I_beam + " µA, the average temperature rises by " + total_dT.toFixed(2) + " K to an average of " + final_temp.toFixed(2) + " K.";
+  }
+
+  // Bind calculation execution to live input updates
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => input.addEventListener('input', calculate));
+
+  // Run initial default validation on mount
+  calculate();
+</script>
+
+</body>
+</html>

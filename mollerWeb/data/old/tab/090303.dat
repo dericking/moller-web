@@ -1,0 +1,35 @@
+***
+***   Moller results 03/03/2009
+***
+* run    - run number
+* time   - run start time
+* Ebc    - Beam energy from HALLA:p
+* Pbmeas - Beam polarization measured
+* Pb5892  - Beam polarization corrected on 5892MeV and 0.8% Linacs' disbalance
+* Err    - Statistical error
+*
+*time     run    Ebc     Pbmeas   Pb5892   Err
+***    Target 5 cur=1.1uA
+1  20.17  13226  5892.7  -80.77  -79.32  0.39    
+2  20.22  13227  5892.4  -80.97  -80.13  0.39
+3  20.27  13228  5892.0  -80.40  -80.40  0.38
+4  20.32  13229  5891.8  -79.44  -79.86  0.39
+***  Average             -80.40  -79.93  0.19      
+***  Chi2                  3.03    1.42
+***    Target 5 cur=1.1uA 
+***   Trigger: LLG+RLG no apperture
+5  12.07  13230  5891.7  -79.31  -79.95  0.40
+6  12.12  13231  5891.8  -79.43  -79.86  0.38
+***  Average             -79.37  -79.90  0.28    
+***  Chi2                  0.05    0.03
+***    Target 4 cur=1.1uA
+7  15.21  13232  5892.3  -80.19  -79.56  0.36
+8  15.28  13233  5892.6  -80.02  -78.79  0.36
+9  15.32  13234  5892.4  -80.65  -79.81  0.36
+10 15.39  13235  5892.3  -80.16  -79.53  0.35
+***  Average             -80.25  -79.42  0.18        
+***  Chi2                  0.58    1.50
+*** Average for all targets
+***  Average             -80.14  -79.70  0.12       
+***  Chi2                  2.31    1.46
+****************************************************

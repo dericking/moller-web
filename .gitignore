@@ -1,0 +1,10 @@
+# Secrets — never commit
+**/db_credentials.php
+
+# Parked leftovers (not site content)
+orphaned/
+
+# Mixed photo dump — keep the folder + listing page, ignore the rest until sorted
+# (do not ignore people/photos or tiltingTarget/photos)
+mollerWeb/photos/*
+!mollerWeb/photos/index.php

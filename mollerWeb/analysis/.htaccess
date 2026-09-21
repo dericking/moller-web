@@ -1,0 +1,8 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+RewriteRule ^analysisdocs/(.*)$ docs/$1 [L]
+RewriteRule ^led_generator/LED_front\.pdf$ docs/LED_front.pdf [L]
+RewriteRule ^led_generator/led_gen\.php$ docs/led_gen.pdf [L]
+RewriteRule ^led_generator/?$ docs/ [L]
+RewriteRule ^([^/]+\.pdf)$ docs/$1 [L]

@@ -1,0 +1,22 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+RewriteRule ^magdocs/quad_4/([^/]+\.pdf)$ docs/$1 [L]
+RewriteRule ^magdocs/hall_a_moller_quad_power_supplies$ docs/hall_a_moller_quad_power_supplies.pdf [L]
+RewriteRule ^magdocs/([^/]+\.pdf)$ docs/$1 [L]
+RewriteRule ^magdocs/([^/]+\.xlsx)$ docs/$1 [L]
+RewriteRule ^magdocs/quad_summary_simul\.(html|php)$ docs/quad_summary_simul.pdf [L]
+RewriteRule ^magdocs/downst_quads\.php$ docs/downst_quads.pdf [L]
+RewriteRule ^magdocs/mag_settings_0\.php$ docs/mag_settings_0.pdf [L]
+RewriteRule ^magdocs/index\.php$ index.php [L]
+RewriteRule ^magdocs/?$ index.php [L]
+RewriteRule ^files/([^/]+\.pdf)$ docs/$1 [L]
+RewriteRule ^beamline_drawings/([^/]+\.pdf)$ docs/$1 [L]
+RewriteRule ^AMI-14432/ramp_rate\.txt$ docs/ramp_rate.pdf [L]
+RewriteRule ^AMI-14432/Field_Maps/MapFromManufacturer\.xlsx$ docs/MapFromManufacturer.xlsx [L]
+RewriteRule ^AMI-14432/Field_Maps/?$ index.php [L]
+RewriteRule ^AMI-14432/([^/]+\.pdf)$ docs/$1 [L]
+RewriteRule ^AMI-14432/?$ index.php [L]
+RewriteRule ^field_mapper\.php$ docs/field_mapper.pdf [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^/]+\.pdf)$ docs/$1 [L]

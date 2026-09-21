@@ -1,0 +1,30 @@
+---
+description: Working tree, chrome, and caretaker constraints
+alwaysApply: true
+---
+
+# Møller polarimeter site
+
+Edit **`mollerWeb/`** only. Preview: `docker/` → http://localhost:9001/ (PHP 5.4). If `moller_old/` or `mollerWeb_2/` exist, they are read-only. Do not create `zz_archived/`. Caretaker notes: root `README.md`. Backlog: `TODO.md` (not site content). `db_credentials.php` and `orphaned/` are gitignored.
+
+```php
+require_once dirname(__DIR__) . '/_includes/bootstrap.php';
+PageTitle("Short title");
+PageStart("data/"); // must match an href in $nav (from $homeCards)
+// body
+PageEnd();
+```
+
+`$nav` comes from `$homeCards` in `_includes/config.php` (no Home item). Use `site_url()` and `$siteBase`; do not hardcode the hallaweb equipment URL. Chrome is `_includes/` and `_assets/`, not public IA.
+
+**`links/`** is the Links & Tools webpage. **`tools/`** holds calculators (`foil-heating/`, …). `tools/index.php` is a 301 to `links/` — do not put hub tables under `tools/` or `PageStart("tools/")`.
+
+## Content
+
+- Quote or migrate existing HTML/PHP/CSS; do not invent physics, procedures, or citations. If two versions disagree, present both.
+- Visible “Moeller”/“Moller” → **Møller**. Leave lowercase `moller` in file names and URLs.
+- Frozen URLs: `data/SBS/`, `data/CREX/`, `data/PREX-II/`. New apps copy `data/EXP_TEMPLATE/`.
+- MolPol-FADC-Web: copy visual language only.
+- Discovery before deletes or mass-moves. Do not rasterize PDFs. Flag huge binaries/CAD/applets. Do not fabricate replacement links. Editor junk (`*~`, `*.bak`) is candidate drop.
+- Every `link_table` row needs an uppercase `'type'` (`EXT` / `WEB` / `DIR` / extension). Do not auto-infer in `tables.php`.
+---

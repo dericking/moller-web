@@ -1,0 +1,12 @@
+---
+description: Publications is two tables; do not invent citations
+globs: mollerWeb/publications/**
+alwaysApply: false
+---
+
+# Publications
+
+`publications/index.php` uses two `publication_table()` calls: **Published Papers**, then **Theses**. Do not merge them. Do not invent titles, DOIs, or URLs.
+
+Hosted PDFs live in `publications/docs/`. Faraz Chahili’s SBS thesis (August 2026) is `publications/docs/FarazChahili_Thesis.pdf`. Extra title-cell files go in `'more'`. `publication_table()` does not use `link_table` type tags.
+---

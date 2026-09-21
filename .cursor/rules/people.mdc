@@ -1,0 +1,12 @@
+---
+description: People roster; do not change membership unasked
+globs: mollerWeb/people/**
+alwaysApply: false
+---
+
+# People
+
+Roster is `$people` in `people/index.php`. Photos in `people/photos/` (`'photo' => 'name.jpg'`). Layout: `.people-grid`, max 4 columns at 1040px (same breakpoints as home cards). Cards reuse `.card` tokens.
+
+Do not add, drop, or reorder people without asking. Duties may be edited when asked. Do not invent photos; omit `'photo'` rather than hotlinking.
+---

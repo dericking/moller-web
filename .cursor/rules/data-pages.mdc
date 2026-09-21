@@ -1,0 +1,16 @@
+---
+description: Frozen experiment URLs; data hub and per-folder apps
+globs: mollerWeb/data/**
+alwaysApply: false
+---
+
+# Data pages
+
+Frozen public URLs: `data/SBS/index.php`, `data/CREX/index.php`, `data/PREX-II/index.php`. Do not rename those folders. New apps copy `data/EXP_TEMPLATE/` (README there).
+
+Each experiment folder is self-contained (`exp_config.php`, gitignored `db_credentials.php`, `data_pull.php`, `showsettings.php`). Change PREX-II (or the template) then copy into the others so they do not drift. `$molpol_profile` is `exact` or `prefix` (SBS).
+
+Hub is `data/index.php` with site chrome (`PageStart("data/")`). Experiment apps use their own header/CSS (not the site sidebar). Palette: copy `_assets/style.css` `:root` **Palette** into each experiment `style.css`. Day tables: `.day-tables` is a CSS grid, max 4 columns; do not go back to shrink-to-content flex.
+
+Legacy year list: `$legacyYears` newest first; each row needs `'date'` and `'sort' => 'date-desc'` or undated rows dump last.
+---

@@ -1,0 +1,19 @@
+You can reboot the FADC Moller ROC (havme25) using one of these methods:
+
+Telnet into the console
+    % telnet hatsv12 2005
+    Trying 129.57.188.87...
+    Connected to hatsv12.jlab.org (129.57.188.87).
+    Escape character is '^]'.
+    -> reboot
+- OR -
+    % telnet hatsv12 2005
+    Trying 129.57.188.87...
+    Connected to hatsv12.jlab.org (129.57.188.87).
+    Escape character is '^]'.
+    -> ^x                      (type Ctrl-x)
+
+- OR -
+Use the network PDU to power cycle the VME crate:
+  http://hareboot26.jlab.org/
+  - havme25 is on switch #1

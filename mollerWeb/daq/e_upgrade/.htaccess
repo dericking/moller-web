@@ -1,0 +1,14 @@
+DirectoryIndex index.php index.html
+RewriteEngine On
+RewriteRule ^electronics_upgrade\.(html|php)$ docs/electronics_upgrade.pdf [L]
+RewriteRule ^upgrading_electronics\.(html|php)$ docs/upgrading_electronics.pdf [L]
+RewriteRule ^plu_module\.(html|php)$ docs/plu_module.pdf [L]
+RewriteRule ^tdc_module\.(html|php)$ docs/tdc_module.pdf [L]
+RewriteRule ^dac_module\.(html|php)$ docs/dac_module.pdf [L]
+RewriteRule ^discriminator_module\.(html|php)$ docs/discriminator_module.pdf [L]
+RewriteRule ^2365-spec\.(htm|php)$ docs/2365-spec.pdf [L]
+RewriteRule ^pdf/?$ docs/ [L]
+RewriteRule ^pdf/(.*)$ docs/$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)$ docs/$1 [L]

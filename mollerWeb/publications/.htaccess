@@ -1,0 +1,6 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+RewriteRule ^FarazChahili_Thesis\.pdf$ docs/FarazChahili_Thesis.pdf [L]
+RewriteRule ^Glamazdin_iron_foils_2012\.pdf$ docs/Glamazdin_iron_foils_2012.pdf [L]
+RewriteRule ^Grames_spin_dance_2004\.pdf$ docs/Grames_spin_dance_2004.pdf [L]

@@ -1,0 +1,21 @@
+SCALER NTUPLE (moller_scal_RNNB.nt)
+
+   // Declaration of leaf types
+   Int_t           izrun;        // run number
+   Float_t         angl;         // target angle, degree
+   Float_t         helmh;        // current in Helmholtz coils (Amps)
+   Float_t         ptarg;        // target polarization
+   Short_t         itarg;        // target number: 1-5
+   Float_t         xytarg[2];    // relative beam position relative to the target center target
+   Int_t           izug;         // the train (quadruplet) number
+   Int_t           ifzug;        // flag (=0 - the zug is OK) 
+   Int_t           nelem;        // number of helicity gates in the train(zug) =4
+   UChar_t         nscal;        // number of scaler channels =32
+   Char_t          jfla[4];       // flag, =0 -OK
+   Char_t          jhel[4];       // helicity values for one train
+   Int_t           jcnt[4][32];   // scaler counts for one train
+   UChar_t         jadc[4];       // number of ADC events for one train
+   Int_t           jtick[4];      // scaler trigger tick values or one train
+   UChar_t         jdtickaf[4];   // diff tick(scal) - 1-st ADC tick for one train
+   UChar_t         jdtickal[4];   // diff tick(scal) - last ADC tick for one train
+

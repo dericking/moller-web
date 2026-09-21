@@ -1,0 +1,26 @@
+---
+description: Site chrome tokens and layout; no W3.CSS
+globs: mollerWeb/**/*.{html,css,js,php}
+alwaysApply: false
+---
+
+# Visual style
+
+Target look: MolPol-FADC-Web tokens (not the FADC app). Shared CSS: `mollerWeb/_assets/style.css`. Do not bring back W3.CSS.
+
+- Palette hexes live only in the `:root` **Palette** block. Remap **Roles** there; do not sprinkle hex/`rgb()`/`rgba()` in component rules or PHP/HTML.
+- No catch-all `--accent`. Use role tokens (`--list-table-*`, `--card-*`, `--site-nav-*`), not palette names (`--granite`).
+- Shadows: `--shadow`. Tables: `--list-table-header-bg` / `--list-table-header-text`, `--list-table-border`, `--list-table-link`.
+- Brand (`.site-sidebar-brand a`) stays `color: inherit` on hover.
+- Nav: `--site-nav-hover*` on hover; `--site-nav-current*` for `aria-current="page"` (current stays put on hover).
+- Serif display (`Iowan Old Style`, Georgia). Shell: `--site-sidebar-width` + `--site-content-max`. Home has **no sidebar**; section pages have the navy left nav.
+- Below 800px, section nav is a top bar with a right-hand burger (`layout.php`). Home cards: container queries on `.wrap-wide` at 520 / 780 / 1040px.
+- Font Awesome is the vendored subset under `_assets/fontawesome/` (see root `README.md`). Do not add a CDN.
+
+```html
+<!-- ❌ BAD -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- ✅ GOOD -->
+<link rel="stylesheet" href="<?= site_url('_assets/style.css') ?>">
+```
+---

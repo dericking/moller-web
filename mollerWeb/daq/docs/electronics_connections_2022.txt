@@ -1,0 +1,754 @@
+Donald Jones jonesdc@jlab.oeg
+Date: 08/2022
+NOTE: In this update the channel numbering follows the numbering on the module if marked, otherwise the numeration starts at 1.
+      That is, if the module has channels marked from 0 to N-1, that numbering is maintained. Otherwise the numbering used is
+      from 1 to N. This is a change from the older version that always starts from 1.
+      
+	Comment: there are 5 crates;  0 - NIM crate in parallel rack housing two modules FO and FIFO for summing aperture scints,
+	 	  	      	      1 - NIM, bottom of rack
+				      2 - CAMAC, just above NIM-1
+				      3 - VME, center of rack above CAMAC-2
+				      4 - NIM crate in rack 1H75B12 where old FADC was being developed
+         Comment: a number C,N,A,K means: 
+         Comment:    C - crate, N - module #, A - channel #, K - parallel input/output #
+
+Cable patch panels:
+           Patch panel above Moller DAQ
+	   -----------------------------
+	   1 - 8  Moller Calorimeter PMTs 1-8
+	   9 - 17 disconnected. Cables run and terminate below Moller detector box.
+	   18 CLK load LED configuration from TIR out register 5
+	   19 LED pulser timing sync
+	   20 LED pulse generator enable(0)/disable(1) TIR output register 6 (converted to TTL)
+	   21 - 32 disconnected. Cables run and terminate below Moller detector box. 
+	   41 - 50 disconnected. Cables run and terminate below Moller detector box. 
+	   50 - 64 Not sure where they run but not connected to Moller DAQ
+
+	   Patch panel at bottom of rack 1H75B03 opposite Moller DAQ
+	   ----------------------------------------------------------
+	   Carries signals from Counting House. Matching labeled panel upstairs
+	   4  --> Cable 005 BCM
+	   14 --> Cable 003 Helicity
+	   15 --> Cable 001 QRT
+	   16 --> Cable 002 MPS (aka Sync)
+            
+
+	   Station : 0,10  : 8x Linear Fan-Out, Phillips Scientific 748
+           ------------------------------------------------------------
+	   Comment: The cables from the patch panel to the detector are 150 ns and from the patch panel to the Fan Out 0,10 is
+	   another 3 ns cable.
+
+         Voltage offset readings from DVM between input ground and offset read point:
+         1: 0.2mV   2: 2.85mV   3: -1.01mV   4: -1.08mV   5: 1.69mV   6: -3.7mV   7: -0.16mV   8:-0.97mV
+
+	 0,10,1,1  <---  153ns ---    : Cable 033  : Scintillator 1
+	 0,10,1,1   ---  1ns --->     : 0,11,3,1   : Linear FIFO (summing)
+	 0,10,1,2   --- 117ns--->     : 2,22,0,1   : ADC (slot 22)
+
+	 0,10,2,1  <---  153ns ---    : Cable 034  : Scintillator 2
+	 0,10,2,1   ---  1ns --->     : 0,11,3,2   : Linear FIFO (summing)
+	 0,10,2,2   --- 117ns--->     : 2,22,1,1   : ADC (slot 22)
+
+	 0,10,3,1  <---  153ns ---    : Cable 035  : Scintillator 3
+	 0,10,3,1   ---  1ns --->     : 0,11,3,3   : Linear FIFO (summing)
+	 0,10,2,2   --- 117ns--->     : 2,22,2,1   : ADC (slot 22)
+
+	 0,10,4,1  <---  153ns ---    : Cable 036  : Scintillator 4
+	 0,10,4,1   ---  1ns --->     : 0,11,3,4   : Linear FIFO (summing)
+	 0,10,4,2   --- 117ns--->     : 2,22,3,1   : ADC (slot 22)
+
+	 0,10,5,1  <---  153ns ---    : Cable 037  : Scintillator 5
+	 0,10,5,1   ---  1ns --->     : 0,11,4,1   : Linear FIFO (summing)
+	 0,10,5,2   --- 117ns--->     : 2,22,4,1   : ADC (slot 22)
+
+	 0,10,6,1  <---  153ns ---    : Cable 038  : Scintillator 6
+	 0,10,6,1   ---  1ns --->     : 0,11,4,2   : Linear FIFO (summing)
+	 0,10,6,2   --- 117ns--->     : 2,22,5,1   : ADC (slot 22)
+
+	 0,10,7,1  <---  153ns ---    : Cable 039  : Scintillator 7
+	 0,10,7,1   ---  1ns --->     : 0,11,4,3   : Linear FIFO (summing)
+	 0,10,7,2   --- 117ns--->     : 2,22,6,1   : ADC (slot 22)
+
+	 0,10,8,1  <---  153ns ---    : Cable 040  : Scintillator 8
+	 0,10,8,1   ---  1ns --->     : 0,11,4,4   : Linear FIFO (summing)
+	 0,10,8,2   --- 117ns--->     : 2,22,7,1   : ADC (slot 22)
+
+
+	   Station : 0,11  : 8x Linear Fan In Fan-Out, Phillips Scientific 740
+           -------------------------------------------------------------------
+ 	 Voltage offset readings from DVM between input ground and offset read point:
+	 1: -1.13mV   2: ----  3: 0.85mV  4: -1.59mV 
+        
+	 0,11,1,1   <--- 1ns ---        : 0,11,3,1  : Sum Left Scint
+	 0,11,1,2   <--- 1ns ---        : 0,11,4,1  : Sum Right Scint
+	 0,11,1,1   --- 116ns--->       : 2,22,10,1 : Sum All Scint
+
+	 0,11,3,1   <--- 1ns ---        : 0,10,1,1  : Fan-out Scint 1 
+	 0,11,3,2   <--- 1ns ---        : 0,10,2,1  : Fan-out Scint 2 
+	 0,11,3,3   <--- 1ns ---        : 0,10,3,1  : Fan-out Scint 3 
+	 0,11,3,4   <--- 1ns ---        : 0,10,4,1  : Fan-out Scint 4
+	 0,11,3,1    --- 1ns  --->      : 0,11,1,1  : Sum Left Aperture Scintillators
+	 0,11,3,4    --- 117ns--->      : 2,22,8,1  : ADC Sum Left Scint
+
+	 0,11,4,1   <--- 1ns ---        : 0,10,5,1  : Fan-out Scint 5 
+	 0,11,4,2   <--- 1ns ---        : 0,10,6,1  : Fan-out Scint 6 
+	 0,11,4,3   <--- 1ns ---        : 0,10,7,1  : Fan-out Scint 7 
+	 0,11,4,4   <--- 1ns ---        : 0,10,8,1  : Fan-out Scint 8 
+	 0,11,4,4    --- 117ns --->     : 2,22,9,1  : ADC Sum Right Scint
+	 0,11,4,1    --- 1ns --->       : 0,11,1,2  : Sum Right Aperture Scintillators
+
+
+	   Station : 1,1   : 8x Linear Fan-Out, Phillips Scientific 748
+           ------------------------------------------------------------
+	   Comment: Cables 001-008 are from patch panel in Moller rack. The cables from the patch panel to the detector are 149 ns
+	            and from the patch panel to the Fan Out 1,1 is another 9 ns cable. These cables should not be confused with
+		    another set of cables labeled 001, 002, 003 and 005 that come from the Counting House patch panel opposite the
+		    Moller DAQ and carry the Hel, MPS and QRT signals respectively.
+	 Voltage offset readings from DVM between input ground and offset read point:
+	 1: 1.37mV   2: 2.17mV  3: 1.76mV  4: 2.24mV   5: 2.46mV   6: 1.8mV   7: 2.02mV   8: 1.18mV
+
+         1,1,1,1   <---  158ns ---     : Cable 001 : Cal_1
+         1,1,2,1   <---  158ns ---     : Cable 002 : Cal_2
+         1,1,3,1   <---  158ns ---     : Cable 003 : Cal_3
+         1,1,4,1   <---  158ns ---     : Cable 004 : Cal_4
+         1,1,5,1   <---  158ns ---     : Cable 005 : Cal_5
+         1,1,6,1   <---  158ns ---     : Cable 006 : Cal_6
+         1,1,7,1   <---  158ns ---     : Cable 007 : Cal_7
+         1,1,8,1   <---  158ns ---     : Cable 008 : Cal_8
+        
+         1,1,1,3    --- 86ns --->    2,23,1,0 : ADC : Cal_1 
+         1,1,2,3    --- 86ns --->    2,23,1,1 : ADC : Cal_2 
+         1,1,3,3    --- 86ns --->    2,23,1,2 : ADC : Cal_3 
+         1,1,4,3    --- 86ns --->    2,23,1,3 : ADC : Cal_4 
+         1,1,5,3    --- 86ns --->    2,23,1,4 : ADC : Cal_5 
+         1,1,6,3    --- 86ns --->    2,23,1,5 : ADC : Cal_6 
+         1,1,7,3    --- 86ns --->    2,23,1,6 : ADC : Cal_7 
+         1,1,8,3    --- 86ns --->    2,23,1,7 : ADC : Cal_8 
+
+         1,1,1,1    ---  1ns --->    1,2,1,1  : Lin Fan-out : Cal_1 
+         1,1,2,1    ---  1ns --->    1,2,1,2  : Lin Fan-out : Cal_2 
+         1,1,3,1    ---  1ns --->    1,2,1,3  : Lin Fan-out : Cal_3 
+         1,1,4,1    ---  1ns --->    1,2,1,4  : Lin Fan-out : Cal_4 
+         1,1,5,1    ---  1ns --->    1,2,4,1  : Lin Fan-out : Cal_5 
+         1,1,6,1    ---  1ns --->    1,2,4,2  : Lin Fan-out : Cal_6 
+         1,1,7,1    ---  1ns --->    1,2,4,3  : Lin Fan-out : Cal_7 
+         1,1,8,1    ---  1ns --->    1,2,4,4  : Lin Fan-out : Cal_8 
+
+
+           Station : 1,2   : 4x Linear Fan-In Fan-Out, Phillips Scientific 740 
+           -------------------------------------------------------------------
+	 Voltage offset readings from DVM between input ground and offset read point:
+	 1: 2.8mV   2: 7.99mV  3: 14.2mV  4: 3.4mV  
+
+         1,2,1,1   <---  1ns ---     1,1,1,1   : Fan-out : Cal_1 
+         1,2,1,2   <---  1ns ---     1,1,2,1   : Fan-out : Cal_2 
+         1,2,1,3   <---  1ns ---     1,1,3,1   : Fan-out : Cal_3 
+         1,2,1,4   <---  1ns ---     1,1,4,1   : Fan-out : Cal_4 
+         1,2,1,1    ---  8ns --->    2,1,1,1   : Discriminator   : Sum_Left 
+         1,2,1,2    --- 86ns --->    2,23,1,8  : ADC has Ch 0-11 : Sum_Left
+         1,2,1,4    ---  1ns --->    1,2,2,2   : Fan-out         : Sum_Left
+        
+         1,2,2,2   <---  1ns ---     1,2,1,4   : Fan-out : Sum_Left 
+         1,2,2,3   <---  1ns ---     1,2,4,4   : Fan-out : Sum_Right 
+         1,2,2,1    ---  4ns --->    2,1,3,1   : Discriminator   : Sum_All 
+         1,2,2,2    --- 86ns --->    2,23,1,10 : ADC has Ch0-11  : Sum_All
+        
+         1,2,4,1   <---  1ns ---     1,1,5,1   : Fan-out : Cal_5 
+         1,2,4,2   <---  1ns ---     1,1,6,1   : Fan-out : Cal_6 
+         1,2,4,3   <---  1ns ---     1,1,7,1   : Fan-out : Cal_7 
+         1,2,4,4   <---  1ns ---     1,1,8,1   : Fan-out : Cal_8 
+         1,2,4,1    ---  8ns --->    2,1,2,1   : Discriminator   : Sum_Right 
+         1,2,4,2    --- 86ns --->    2,24,1,9  : ADC has Ch 0-11 : Sum_Right
+         1,2,4,3    ---  1ns --->    1,2,2,3   : Fan-out         : Sum_Right
+
+
+           Station : 1,3   : 2x Gate Generator, LeCroy 222
+           -------------------------------------------------
+         1,3,1 Dial set to Latch
+	 1,3,2 Dial set to 100 microseconds
+
+         Voltage offset readings from DVM between input ground and read point:
+	 1: 0.861V   2: 1.527V
+	 
+         1,3,1,Start   <---  1ns ---    1,4,2,3      : Logical fan-out : trigger_1 ADC_trigger : Start veto
+         1,3,1,Stop    <---  3ns ---    1,10,2,2     : Discriminator   : enable trigger        : Stop  veto
+         1,3,1,NIM      ---  2ns --->   1,9,Veto     : Discriminator   : veto on triggers      : Veto
+         1,3,1,!NIM     ---  2ns --->   1,6,11,2     : NIM-ECL         : veto on triggers
+
+         1,3,2,Start   <--- 15ns ---    1,5,3,5      : Coinc. unit     : pulser circuit        : Start
+         1,3,2,!NIM     ---  2ns --->   1,5,3,1      : Coinc. unit     : pulser circuit
+	 1,3,2,Del      ---  3ns --->   1,4,1,1      : Logic Unit      : Terminates unused. Removed.
+
+
+           Station : 1,4   : 4x Logical Unit, Phillips Scientific 754 
+           ----------------------------------------------------------
+	 Section 1 connections can be removed since they appear to terminate at the 2,15 NIM-ECL unused
+	 Sections 2 and 4 are being used as logical fan outs. Section 3 uses coincidence.
+
+	 Coincidence level dial settings
+	 1,4,1 (nothing plugged in)
+         1,4,2 Dial set to 1
+	 1,4,3 Dial set to 2
+	 1,4,4 Dial set to 1
+
+
+	 1,4,1,1     <---  3ns ---     1,3,2,Del     : Gate gen     : Terminates unused. Removed.
+         1,4,1,!Out   ---  6ns --->    2,15,8,1      : NIM-ECL      : Terminates unused. Removed
+
+	 1,4,2,1     <---  2ns ---     1,9,6,1  : Discriminator     : trigger_1 ADC_trigger 
+         1,4,2,2      ---  2ns --->    1,6,6,2  : NIM-ECL           : trigger_1 ADC_trigger
+         1,4,2,3      ---  1ns --->    1,3,1,1  : Gate generator    : trigger_1 ADC_trigger
+         1,4,2,4      -- 117ns --->    1,4,4,1  : Logic Unit (FO)   : trigger_1 ADC_trigger
+
+         1,4,3,1   <---  3ns ---       2,13,8,3   : NIM-ECL         : Clock 100kHz
+         1,4,3,2   <---  4ns ---       2,13,2,3   : NIM-ECL         : Helicity
+         1,4,3,1    ---  2ns --->      1,6,2,2    : NIM-ECL         : coincidence clock*helicity
+
+	 1,4,4,1   <-- 117ns ---       1,4,2,4   : Logic Unit (FO)  : Fan out for 100ns delay ADC triger
+         1,4,4,1    ---  4ns --->      2,15,16,1 : NIM-ECL          : trigger_1 ADC_trigger (terminates in Com1 input on empty TDC 2277 in 2,16). Removed.
+         1,4,4,2    ---  4ns --->      1,6,1,2   : NIM-ECL          : trigger_1 ADC_trigger
+
+
+	   Station : 1,5   : 3x Coincidence Unit, LeCroy 465
+           -------------------------------------------------
+         Output numbering: Lin Out=1,2; Out=3,4; !Out = 5
+	 
+	 1,5,1,A   <---  3ns ---     2,13,4,2	  : NIM-ELC         : MPS
+         1,5,1,B   <---  3ns ---     2,13,1,2 	  : NIM-ECL         : Scaler gate from CPU
+         1,5,1,1    ---  5ns --->    3,10,0,0  	  : VME scaler      : Gate
+         1,5,1,2    ---  5ns --->    3,8,0,0  	  : VME scaler      : Gate
+
+         1,5,3,A   <---  2ns ---     1,3,2,!NIM   : Gate generator  : pulser circuit 
+         1,5,3,B   <---  2ns ---     1,6,3,3  	  : NIM-ECL         : pulser enable 
+         1,5,3,1    ---  2ns --->    1,6,8,2  	  : NIM-ECL         : pulser 
+         1,5,3,2    ---  2ns --->    1,6,7,2  	  : NIM-ECL         : appears to terminate unused at 1,6,7,2 
+         1,5,3,3    ---  5ns --->    2,1,Test  	  : Discriminator   : pulser  : test input 
+         1,5,3,5    --- 15ns --->    1,3,2,Start  : Gate generator  : pulser 
+
+
+           Station : 1,6   : 16x NIM-ECL, LeCroy 4616
+           ------------------------------------------
+           Comment : numeration : 1 - ECL input/output, 2,3,4 - NIM input/output
+	   Cable 001 in ch 9 is the QRT signal from the Counting House patch panel opposite the Moller DAQ rack and not to be confused with
+	   cable 001 from the patch panel above the Moller DAQ that carries signal from Moller detector PMT 1.
+
+         1,6,1,2   <---  4ns ---     1,4,4,2  : Coincidence Unit  : TDC stop (trigger_1)
+         1,6,1,1    ---  5ns --->    2,9,Com1 : TDC               : TDC stop (trigger_1) 
+
+         1,6,2,2   <--   2ns ---     1,4,3,1  : Coincidence Unit  : Clock*helicity
+         1,6,2,1    ---  5ns --->    3,8,10,1 : VME scaler        : Clock*helicity
+
+         1,6,3,1   <---  5ns ---     3,2,1,1  : VME TIR           : pulser enable 
+         1,6,3,2    ---  2ns --->    1,5,3,2  : Coincidence Unit  : pulser enable
+
+         1,6,4,2   <---  2ns ---     1,9,2,1  : Discriminator     : trigger_2 (vetoed) 
+         1,6,4,1    ---  5ns --->    3,2,1,1  : VME TIR           : trigger_2 (vetoed)
+
+         1,6,5,2   <---  2ns ---     1,10,2,1 : Discriminator     : trigger_2
+         1,6,5,1    ---  5ns --->    3,8,11,1 : VME scaler        : trigger_2
+
+         1,6,6,2   <---  2ns ---     1,4,2,2  : Logical Unit      : trigger_1
+         1,6,6,1    ---  5ns --->    3,2,0,1  : VME TIR           : trigger_1
+
+         1,6,7,2   <---  2ns ---     1,5,3,2  : Coincidence Unit  : appears to terminate unused (duplicate of 1,6,8)
+
+         1,6,8,2   <---  2ns ---     1,5,3,1  : Coincidence Unit  : pulser
+         1,6,8,1    ---  5ns --->    2,6,8,1  : CAMAC delay       : pulser
+
+         1,6,9,2   <---  49ns ---    Cable 001  : Counting room (PP 15) : QRT - 1st sync in a pattern (quartet, octet etc)
+         1,6,9,1    ---  5ns --->    3,2,7,1    : VME TIR input 7   : QRT - 1st sync in a pattern                         
+
+         1,6,11,2  <---  2ns ---     1,3,1,!NIM : Gate generator    : Trigger veto
+         1,6,11,1   ---  5ns --->    3,2,6,1    : VME trigger       : Trigger veto
+
+         1,6,12,2  <--- 117ns ---    1,6,14,3   : NIM-ECL           : Sum_Scint_Left_delayed 
+         1,6,12,1   ---  5ns --->    2,6,7,1    : CAMAC delay       : Sum_Scint_Left_delayed 
+
+	 1,6,13,2  <--- 117ns ---    1,6,15,4   : NIM-ECL           : Sum_Cal_Left_delayed 
+	 1,6,13,1   ---  5ns  --->   2,6,6,1    : CAMAC delay       : Sum_Cal_Left_delayed 
+
+         1,6,14,1  <---  5ns ---     2,6,4,2    : CAMAC delay       : Sum_Scint_Left 
+         1,6,14,3   -- 117ns --->    1,6,12,2   : NIM-ECL           : Sum_Scint_Left_delayed         
+
+         1,6,15,1  <---  5ns ---     2,6,1,2    : CAMAC delay       : Sum_Cal_Left 
+         1,6,15,2   -- 117ns --->    1,6,13,2   : NIM-ECL           : Sum_Cal_Left_delayed 
+
+	 1,6,16,1  <---  5ns ---     3,2,0,1    : VME TIR           : Reset_veto 
+         1,6,16,3   ---  2ns --->    1,10,1,In  : Discriminator     : Reset_veto
+
+
+	 Station : 1,7   : 4x Linear fan-out, Phillips Scientific 740
+           ------------------------------------------------------------
+         Channel 4 voltage offset is -265.0mV
+
+         1,7,4,1   <-- 197ns ---     cable 019  : Pulser sync     : TTL from top connection LED pulse generator (in detector hut) 
+         1,7,4,1    ---  3ns --->    1,10,4,1   : Discriminator   : LED pulse generator sync
+
+
+	 Station : 1,8   : 4x Attenuator, Phillips Scientific 804
+           ------------------------------------------------------------
+	   Attenuator ch 1 set to x0.1
+         1,8,1,1   <---  5ns ---     2,13,2,3   : NIM-ECL             : Helicity signal
+         1,8,1,1    ---  1ns --->    1,8,2,1    : Attenuator          : 0.1xHelicity
+	 
+	 Attenuator ch 2 set to x0.5
+	 1,8,2,1   <---  1ns ---     1,8,1,1    : Attenuator          :0.1xHelicity
+	 1,8,2,1    ---  5ns --->    2,23,11,1  : ADC                 :0.05xHelicity
+
+
+           Station : 1,9   : 16x Discriminator, Phillips Scientific 706 (replaced 09 Aug 2019)
+           -----------------------------------------------------------------------------------
+         Single threshold setting is -395mV
+
+         1,9,Veto  <---  2ns ---     1,3,1,NIM  : Gate Generator  : veto : readout dead time
+
+         1,9,2,1   <--- 100ns---     2,13,5,2   : NIM-ECL           : !MPS
+         1,9,2,2    ---  4ns --->    1,6,4,2    : NIM-ECL           : trigger_2 vetoed
+
+         1,9,4,1   <---  3ns ---     2,13,12,3  : NIM-ECL           : trigger_1 (delayed)
+         1,9,4,1    ------------>    50 ohm terminator
+         1,9,4,2    ---  3ns --->    2,22,0,0   : ADC (N=22) gate   : trigger_1 (delayed) vetoed
+
+	 1,9,6,1   <---  2ns ---     2,13,16,2  : NIM-ECL           : trigger_1 
+         1,9,6,1    ---  2ns --->    1,4,2,1    : Logical unit      : trigger_1 vetoed
+         1,9,6,2    ---  4ns --->    2,23,Gate  : ADC(slot 23) gate : trigger_1 vetoed
+
+
+           Station : 1,10   : 6x Discriminator, Phillips Scientific 711
+           ------------------------------------------------------------
+         Channel Thresholds: 1: -225mV  2: -1.00V  3: (empty)  4: -153mV
+
+         1,10,1,In <---  2ns ---     1,6,16,3   : NIM-ECL         : Reset_veto
+         1,10,1,1   ---  3ns --->    1,3,1,Stop : Gate generator  : Enable Trigger : Stop veto
+
+         1,10,2,1  <---  4ns ---     2,13,5,3   : NIM-ECL         : !MPS
+         1,10,2,1   ---  3ns --->    1,6,5,2    : NIM-ECL         : trigger_2
+
+	 1,10,4,1  <---  3ns ---     1,7,4,1    : Linear FIFO     : LED pulse generator sync
+         1,10,4,1   ---  4ns --->    2,13,10,2  : NIM-ECL         : LED pulse generator sync
+
+
+           Station : 2,1   : 8x CAMAC Discriminator, ORTEC TD8000
+           ------------------------------------------------------
+           Comment : input 0,1 is Test
+
+         2,1,Test  <---  5ns ---     1,5,3,3    : Coincidence Unit : Pulser : Test input  
+
+         2,1,1,1   <---  8ns ---     1,2,1,1    : Linear Fan-out   : Sum_Cal_Left
+         2,1,2,1   <---  8ns ---     1,2,4,1    : Linear Fan-out   : Sum_Cal_Right
+         2,1,3,1   <---  4ns ---     1,2,2,1    : Linear Fan-out   : Sum_Cal_All
+         2,1,4,1   <---  8ns ---     0,11,3,4   : Linear Fan-out   : Sum_Scint_Left
+         2,1,5,1   <---  8ns ---     0,11,4,4   : Linear Fan-out   : Sum_Scint_Right
+
+         2,1,1,1    ---  2ns --->    2,6,1,1    : CAMAC delay      : Sum_Cal_Left
+         2,1,2,1    ---  2ns --->    2,6,2,1    : CAMAC delay      : Sum_Cal_Right
+         2,1,3,1    ---  2ns --->    2,6,3,1    : CAMAC delay      : Sum_Cal_All
+         2,1,4,1    ---  2ns --->    2,6,4,1    : CAMAC delay      : Sum_Scint_Left
+         2,1,5,1    ---  2ns --->    2,6,5,1    : CAMAC delay      : Sum_Scint_Right
+         2,1,6,1    ---  2ns --->    2,6,13,1   : CAMAC delay      : No input so must be vestigial (remove)
+         2,1,7,1    ---  2ns --->    2,6,11,1   : CAMAC delay      : No input so must be vestigial (remove)
+         2,1,8,1    ---  2ns --->    2,6,14,1   : CAMAC delay      : No input so must be vestigial (remove)
+
+
+           Station : 2,5   : Single Channel CAMAC VtoF
+           --------------------------------------------
+	   Comment: TTL output
+	   
+ 	   2,5,1,1   <--- 55ns  ---    BPM1H01 X+ analog signal cable from nearby rack 1H75B06
+	   2,5,1,1    ---  3ns  --->   2,15,2,1   : NIM-ECL          : BPM 1H01 X+ converted to frequency
+
+
+	   Station : 2,6   : 16x CAMAC Delay, LeCroy 4518
+           ----------------------------------------------
+           Comment : input/output are in ECL
+                    
+         2,6,1,1    <---  2ns ---     2,1,1,1      : CAMAC discrim.   : Sum_Cal_Left   
+         2,6,2,1    <---  2ns ---     2,1,2,1      : CAMAC discrim.   : Sum_Cal_Right   
+         2,6,3,1    <---  2ns ---     2,1,3,1      : CAMAC discrim.   : Sum_Cal_All    
+         2,6,4,1    <---  2ns ---     2,1,4,1      : CAMAC discrim.   : Sum_Scint_Left 
+         2,6,5,1    <---  2ns ---     2,1,5,1      : CAMAC discrim.   : Sum_Scint_Right
+         2,6,6,1    <---  5ns ---     1,6,13,1     : NIM-ECL          : Sum_Cal_Left_Delayed  
+         2,6,7,1    <---  5ns ---     1,6,12,1     : NIM-ECL          : Sum_Scint_Left_delayed  
+         2,6,8,1    <---  3ns ---     1,6,8,1      : NIM-ECL          : Pulser  
+         2,6,9,1    <---  3ns ---     2,13,10,1    : NIM-ECL          : LED_pulser  
+	 2,6,10,1 empty
+	 2,6,11,1   <---  1ns ---     2,1,7,A      : Discriminator    : No input on discr. Vestigial (remove)
+	 2,6,12,1   <---  1ns ---     2,11,7,B     : PLU              : trigger_1 (to be delayed)  
+	 2,6,13,1   <---  1ns ---     2,1,6,1      : Discriminator    : No input on discr. Vestigial (remove)  
+	 2,6,14,1   <---  1ns ---     2,1,8,1      : Discriminator    : No input on discr. Vestigial (remove)  
+	 2,6,15,1 empty
+	 2,6,16,1   <---  5ns ---     2,15,5,1     : NIM-ECL          : No input signal (Removed)  
+
+         2,6,1-16,1  ---  18" --->    2,9,0-15,In1 : CAMAC TDC        : 16 channel ribbon cable
+
+         2,6,1,2     ---  3ns --->    1,6,15,1     : NIM-ECL          : Sum_Cal_Left  
+ 	 2,6,2,2     ---  3ns --->    3,10,6,1     : VME Scaler       : Sum_Cal_Right  
+ 	 2,6,3,2     ---  3ns --->    3,10,7,1     : VME Scaler       : Sum_Cal_All  
+	 2,6,4,2     ---  3ns --->    1,6,14,1     : NIM-ECL          : Sum_Scint_Left
+	 2,6,5,2     ---  3ns --->    3,10,9,1     : VME Scaler       : Sum_Scint_Right
+	 2,6,6,2     ---  3ns --->    3,10,5,1     : VME Scaler       : Sum_Cal_Left_Delayed
+	 2,6,7,2     ---  3ns --->    3,10,8,1     : VME Scaler       : Sum_Scint_Left_delayed
+	 2,6,8-12,2 empty		         
+	 2,6,13,2    ---  3ns --->    3,10,16,1    : VME Scaler       : Sum_Scint_Left_delayed
+	 2,6,14,2    ---  3ns --->    2,11,9,1     : CAMAC PLU        : No live input. Vestigial (remove)
+	 2,6,15-16,2 empty		         
+					         
+         2,6,1,3     ---  2ns --->    2,11,0,1     : CAMAC PLU        : Sum_Cal_Left  
+         2,6,2,3     ---  2ns --->    2,11,1,1     : CAMAC PLU        : Sum_Cal_Right  
+         2,6,3,3     ---  2ns --->    2,11,2,1     : CAMAC PLU        : Sum_Cal_All 
+         2,6,4,3     ---  2ns --->    2,11,3,1     : CAMAC PLU        : Sum_Scint_Left  
+         2,6,5,3     ---  2ns --->    2,11,4,1     : CAMAC PLU        : Sum_Scint_Right  
+         2,6,6,3     ---  2ns --->    2,11,6,1     : CAMAC PLU        : Sum_Cal_Left_Delayed
+         2,6,7,3     ---  2ns --->    2,11,11,1    : CAMAC PLU        : Sum_Scint_Left_Delayed 
+         2,6,8,3     ---  2ns --->    2,11,14,1    : CAMAC PLU        : Pulser
+         2,6,9,3     ---  2ns --->    2,11,15,1    : CAMAC PLU        : LED_pulser
+	 2,6,10,3 empty			         
+	 2,6,11,3    ---  2ns --->    2,11,8,1     : CAMAC PLU        : No live input. Vestigial (remove)
+	 2,6,12,3    ---  1ns --->    2,13,12,1    : NIM-ECL          : trigger_1 (delayed)
+	 2,6,13-16,3 empty		         
+
+
+           Station : 2,9  : 32 Channel CAMAC TDC, LeCroy 2277
+           --------------------------------------------------
+           Comment : input is ECL. Channels 16-31 unused
+	 2,9,Com1    <--- 5ns---      1,6,1,1      : NIM-ECL          : TDC stop
+	 
+	 2,9,0-15,1  <--- 18"---      2,6,1-16,1   : CAMAC delay      : 16 channel ribbon cable               
+
+
+           Station : 2,11  : 16in-8out CAMAC PLU, LeCroy 2365
+           --------------------------------------------------
+           Comment : input/output are in ECL. Input and output channels start at 0.
+	   Note: the outputs labeled Left, Right and Coinc depend on the input settings. They are usually set such that
+	         Left=Cal_Left, Right=Cal_Right and Coinc = Cal_Left&&Cal_Right. However, the logic could be set so that
+		 these also are ANDed with the scintillators.
+                    
+         2,11,0,1  <---  2ns ---     2,6,1,3    : CAMAC delay      : Sum_Cal_Left  
+         2,11,1,1  <---  2ns ---     2,6,2,3    : CAMAC delay      : Sum_Cal_Right  
+         2,11,2,1  <---  2ns ---     2,6,3,3    : CAMAC delay      : Sum_Cal_All 
+         2,11,3,1  <---  2ns ---     2,6,4,3    : CAMAC delay      : Sum_Scint_Left  
+         2,11,4,1  <---  2ns ---     2,6,5,3    : CAMAC delay      : Sum_Scint_Right  
+         2,11,5,1  <---  2ns ---     2,13,6,1   : NIM-ECL          : BCM  
+         2,11,6,1  <---  2ns ---     2,6,6,3    : CAMAC delay      : Sum_Cal_Left_delayed  
+         2,11,7,1  Empty (faulty input). Previously <---  2ns ---     2,6,7,3    : CAMAC delay      : Sum_Scint_Left_delayed  
+	 2,11,8,1  <---  2ns ---     2,6,11,3   : CAMAC delay        : No live input. Vestigial (remove)
+         2,11,9,1  <---  2ns ---     2,6,14,2   : CAMAC delay        : Vestigial cable originates in 2,1 discr with no input. Remove.
+         2,11,10,1 <---  2ns ---     2,13,7,1   : NIM-ECL          : Clock 100kHz  
+	 2,11,11,1 <---  2ns ---     2,6,7,3    : CAMAC delay      : Sum_Scint_Left_Delayed
+	 2,11,12,1 <---  2ns ---     2,13,4,1   : NIM-ECL          : MPS  
+         2,11,13,1 <---  3ns ---     3,2,2,1    : VME TIR          : Disable trigger_1  
+         2,11,14,1 <---  2ns ---     2,6,8,3    : CAMAC delay      : Pulser  
+         2,11,15,1 <---  2ns ---     2,6,9,3    : CAMAC delay      : LED_pulser  
+
+
+         2,11,0,A   ---  2ns --->    3,8,1,1    : VME scaler       : Sum_Left * MPS  
+         2,11,0,B   ---  2ns --->    3,10,1,1   : VME scaler       : Sum_Left * MPS  
+         2,11,1,A   ---  2ns --->    3,8,2,1    : VME scaler       : Sum_Right * MPS  
+         2,11,1,B   ---  2ns --->    3,10,2,1   : VME scaler       : Sum_Right * MPS  
+         2,11,2,A   ---  2ns --->    3,8,3,1    : VME scaler       : Coinc * MPS  
+         2,11,2,B   ---  2ns --->    3,10,3,1   : VME scaler       : Coinc * MPS  
+         2,11,3,A   ---  2ns --->    3,8,4,1    : VME scaler       : Accidentals * MPS  
+         2,11,3,B   ---  2ns --->    3,10,4,1   : VME scaler       : Accidentals * MPS  
+         2,11,4,A   ---  2ns --->    3,8,5,1    : VME scaler       : BCM * MPS  
+         2,11,4,B empty
+         2,11,5,A   ---  2ns --->    3,8,12,1   : VME scaler       : Clock * MPS  
+         2,11,5,B empty
+         2,11,6,A   ---  2ns --->    3,8,6,1    : VME scaler       : -  (for LED setup  LED*MPS)  
+         2,11,6,B empty
+         2,11,7,A   ---  2ns --->    2,13,16,1  : NIM-ECL          : trigger_1
+         2,11,7,B   ---  1ns --->    2,6,12,1   : CAMAC delay      : trigger_1
+
+
+           Station : 2,13   : 16x NIM-ECL, Phillips 7126
+           --------------------------------------------
+           Comment : numeration : 1 - ECL input/output, 2(3) - NIM input/output(s), 4 - TTL output
+	   Cables 001, 002, 003 and 005 carry QRT, MPS, Helicity and BCM signals respectively from the Counting House patch panel opposite
+	   the Moller DAQ rack, not be confused with the identically labeled cables carrying signals from Moller PMTS 1,2,3,5 coming from 
+	   the patch panel above the Moller DAQ.
+
+         2,13,1,1  <---  3ns ---     3,2,7,1    : VME trigger            : Scaler_gate  
+         2,13,1,2   ---  2ns --->    1,5,2,2    : Coincidence            : Scaler_gate : 
+         
+         2,13,2,2  <---  49ns ---     Cable 003  : Counting room (PP 14)  : Helicity  
+         2,13,2,1   ---  5ns --->    3,2,5,1    : VME TIR input 5        : Helicity
+         2,13,2,2   ---  5ns --->    1,8,1,1    : Attenuator             : Helicity
+         2,13,2,3   ---  4ns --->    1,4,3,2    : Coinc. unit            : Helicity
+	 2,13,4,1   ---  3ns --->    2,15,9,2   : NIM-ECL                : Helicity
+
+         2,13  Bad channel 
+
+         2,13,4,1  <---  3ns --- inv 2,13,5,1   : NIM-ECL                : MPS Synchro-signal  
+         2,13,4,1   ---  2ns --->    2,11,12,1  : CAMAC PLU              : MPS
+         2,13,4,2   ---  3ns --->    1,5,1,A    : Coincidence            : MPS
+
+         2,13,5,2  <---  49ns ---    Cable 002  : Counting room (PP 16) : !MPS Synchro-signal, inverted
+         2,13,5,1   ---  2ns --->    2,13,4,1   : NIM-ECL                : !MPS inverted
+         2,13,5,2   ---  100ns --->  1,9,2,1    : Discriminator          : !MPS inverted
+         2,13,5,3   ---  5ns --->    1,10,2,1   : Discriminator          : !MPS inverted
+
+         2,13,6,2  <---  49ns ---    Cable 005  : Counting room (PP 4)  : BCM
+         2,13,6,1   ---  2ns --->    2,11,5,1   : CAMAC PLU              : BCM
+	 
+         2,13,7,2  <---  1ns ---     2,13,8,2   : NIM-ECL          : Clock
+	 2,13,7,1   ---  2ns --->    2,11,10,1  : CAMAC PLU        : Clock
+
+         2,13,8,2  <---  3ns ---     1,12,1,1   : Clock Pulser     : Clock
+         2,13,8,1   ---  3ns --->    3,8,15,1   : VME scaler       : Clock
+	 2,13,8,2   ---  1ns --->    2,13,7,2   : NIM-ECL          : Clock
+         2,13,8,3   ---  3ns --->    1,4,3,1    : Coinc. unit      : Clock
+
+         2,13,9,1  <---  3ns ---     3,2,6,1    : VME TIR Out Reg  : LED enable
+         2,13,9,4   -- 158ns --->   Cable 020  : LED generator    : LED TTL enable 0/disable 1
+
+         2,13,10,2 <---  3ns ---     1,10,4,1   : Discriminator    : LED_pulser
+         2,13,10,1  ---  3ns --->    2,6,9,1    : CAMAC delay      : LED_pulser
+
+         2,13,11,1 <---  3ns ---     3,2,5,1    : VME TIR Out Reg  : LED CLK load configuration
+         2,13,11,2  -- 158ns --->    Cable 018  : LED generator    : LED TTL CLK lead configuration
+
+         2,13,12,1 <---  1ns ---     2,6,12,3   : CAMAC delay      : trigger_1 (delayed) - gate 2
+         2,13,12,3  ---  3ns --->    1,9,4,1    : Discriminator    : trigger_1 (delayed) - gate 2
+
+	 2,13,14-15 empty
+	 
+         2,13,16,1 <---  3ns ---     2,11,7,1   : CAMAC PLU        : trigger_1
+         2,13,16,2  ---  2ns --->    1,9,6,1    : Discriminator    : trigger_1
+
+
+           Station : 2,15   : 16x NIM-ECL, Philips 7126
+           --------------------------------------------
+         2,15,1,2  <---  1ns ---     2,18,1,1   : CAMAC VtoF TTL output  : BPM 1H01 X-
+         2,15,1,1   ---  3ns --->    3,10,10,1  : CAMAC VtoF TTL output  : BPM 1H01 X-
+
+	 2,15,2,2  <---  1ns ---     2,5,1,1    : CAMAC VtoF TTL output  : BPM 1H01 X+
+         2,15,2,1   ---  3ns --->    3,10,11,1  : CAMAC VtoF TTL output  : BPM 1H01 X+
+
+	 2,15,3-4 empty
+
+	 2,15,5,2  <--- 20ns --- Cable disconnected and dangling near Counting House patch panel. Removed.
+	 2,15,5,1  ---- 8ns ---> 2,6,16,1 ECL cable with label "Acc RF signal" but with no input it appears vestigial. Removed.
+
+	 2,15,6-7 empty
+
+         2,15,8,2  ---- 6ns --->  1,4,1!OUt. Single output of 1,4,1 and has no output from 2,15,8 so it appears vestigial. Removed.
+
+	 2,15,9-13 empty
+
+	 2,15,14,2 <--- 8ns   ----  4,4,1,1       : NIM VtoF TTL out : BPM 1H01 Y-
+	 2,15,14,2  --- 3ns   ----> 3,10,13,1     : VME Scaler       : BPM 1H01 Y-
+	 
+	 2,15,15,2 <--- 150cm ----  4,5,1,1       : NIM VtoF TTL out : BPM 1H01 Y+
+	 2,15,15,2  --- 3ns   ----> 3,10,12,1     : VME Scaler       : BPM 1H01 Y+
+
+	 2,15,16,2 <--- 4ns   ----  1,4,4,1       : Logic unit       : ADC trigger_1 terminates unused in Com1 port of TDC 2277 in 2,16. Removed.
+	 2,15,16,1 ---- 5ns   ----> 2,16,Com1     : TDC 2277         : ADC trigger_1 terminates unused in Com1 port of TDC 2277 in 2,16. Removed.
+
+
+	   Station : 2,16   : TDC LeCroy 2277
+           --------------------------------------------
+           Comment : numeration :
+	   Now empty. Formerly fed by ribbon cable from LeCroy 4413 discriminator slot 2,20 to Lecroy 2277 TDC in slot 2,16. 
+	 2,20,1-16,Out1  --- 3ft ---> 2,16,0-15,In1 : Unused Discr to TDC connection. Removed.
+
+
+	    Station : 2,18 : Single Channel CAMAC VtoF
+           -------------------------------------------
+	   Comment: TTL output
+ 	 2,18,1,1   <--- 55ns ---    BPM1H01 X- analog signal cable from nearby rack 1H75B06
+	 2,18,1,1    --- 2ns  --->   2,15,1,1   : NIM-ECL          : BPM 1H01 X- converted to freq
+
+	   
+	   Station : 2,19   : ADC LeCroy 2249A
+           --------------------------------------------
+           Comment : No longer connected or in use
+
+
+	   Station : 2,20   : Discriminator LeCroy 4413
+           --------------------------------------------
+           Comment : No longer connected. Formerly connected to lead glass detector. Listed below are the patch panel connections that
+	             formerly connected to this discriminator. This is the patch panel at the top of the DAQ rack that carries the
+		     calorimeter and scintillator signals.
+
+  	 2,20,1   --> Patch Panel 11  Cable removed.
+	 2,20,2   --> Patch Panel 12  Cable removed.
+	 2,20,3   --> Patch Panel 13  Cable removed.
+	 2,20,4   --> Patch Panel 14  Cable removed.
+	 2,20,5   --> Patch Panel 15  Cable removed.
+	 2,20,6   --> Patch Panel 16  Cable removed.
+	 2,20,7   --> Patch Panel 17  Cable removed.
+	 2,20,8   --> Patch Panel 21  Cable removed.
+	 2,20,9   --> Patch Panel 22  Cable removed.
+	 2,20,10  --> Patch Panel 23  Cable removed.
+	 2,20,11  --> Patch Panel 30  Cable removed.
+	 2,20,12  --> Patch Panel 31  Cable removed.
+	 2,20,13  --> Patch Panel 32  Cable removed.
+
+
+	   Station : 2,21   : Discriminator LeCroy 4413
+           --------------------------------------------
+           Comment : No longer connected. Formerly connected to lead glass detector. Listed below are the patch panel connections that
+	             formerly connected to this discriminator.
+
+ 	 2,21,1   --> Patch Panel 9   Cable removed.
+ 	 2,21,2   --> Patch Panel 10  Cable removed. 
+ 	 2,21,3   --> Patch Panel 24  Cable removed. 
+ 	 2,21,4   --> Patch Panel 25  Cable removed. 
+ 	 2,21,5   --> Patch Panel 26  Cable removed. 
+ 	 2,21,6   --> Patch Panel 27  Cable removed. 
+ 	 2,21,7   --> Patch Panel 29  Cable removed.
+ 	 2,21,8   --> Patch Panel 28  Cable removed. 
+ 	 2,21,9   --> Patch Panel 41  Cable removed.
+ 	 2,21,10  --> Patch Panel 42  Cable removed.
+ 	 2,21,11  --> Patch Panel 43  Cable removed.
+ 	 2,21,12  --> Patch Panel 44  Cable removed.
+ 	 2,21,13  --> Patch Panel 45  Cable removed.
+ 	 2,21,14  --> Patch Panel 46  Cable removed.
+ 	 2,21,15  --> Patch Panel 47  Cable removed.
+ 	 2,21,16  --> Patch Panel 48  Cable removed.
+
+
+	   Station : 2,22   : ADC LeCroy 2249A
+           --------------------------------------------
+           Comment : Input channels from 0-11
+	 2,22,Gate   <---  5ns  ---   1,9,4,2
+         2,22,0,1    <--- 117ns ---   0,10,1,1 : Fan Out  : Scint_1 
+         2,22,1,1    <--- 117ns ---   0,10,2,1 : Fan Out  : Scint_2 
+         2,22,2,1    <--- 117ns ---   0,10,3,1 : Fan Out  : Scint_3 
+         2,22,3,1    <--- 117ns ---   0,10,4,1 : Fan Out  : Scint_4 
+         2,22,4,1    <--- 117ns ---   0,10,5,1 : Fan Out  : Scint_5 
+         2,22,5,1    <--- 117ns ---   0,10,6,1 : Fan Out  : Scint_6 
+         2,22,6,1    <--- 117ns ---   0,10,7,1 : Fan Out  : Scint_7 
+         2,22,7,1    <--- 117ns ---   0,10,8,1 : Fan Out  : Scint_8 
+         2,22,8,1    <--- 117ns ---   0,11,1,2 : Lin FIFO : Sum_Scint_Left
+         2,22,9,1    <--- 117ns ---   0,11,4,2 : Lin FIFO : Sum_Scint_Right
+         2,22,10,1   <--- 116ns ---   0,11,1,1 : Lin FIFO : Sum_Scint_All
+
+
+	   Station : 2,23   : ADC LeCroy 2249A
+           --------------------------------------------
+           Comment : Input channels from 0-11 
+
+	 2,23,Gate   <--- 4ns  ---   1,9,6,1 : Discriminator : Trigger_1
+         2,23,0,1    <--- 86ns ---   1,1,1,3 : Fan Out       : Cal_1 
+         2,23,1,1    <--- 86ns ---   1,1,2,3 : Fan Out       : Cal_2 
+         2,23,2,1    <--- 86ns ---   1,1,3,3 : Fan Out       : Cal_3 
+         2,23,3,1    <--- 86ns ---   1,1,4,3 : Fan Out       : Cal_4 
+         2,23,4,1    <--- 86ns ---   1,1,5,3 : Fan Out       : Cal_5 
+         2,23,5,1    <--- 86ns ---   1,1,6,3 : Fan Out       : Cal_6 
+         2,23,6,1    <--- 86ns ---   1,1,7,3 : Fan Out       : Cal_7 
+         2,23,7,1    <--- 86ns ---   1,1,8,3 : Fan Out       : Cal_8 
+         2,23,8,1    <--- 86ns ---   1,2,1,2 : Lin FIFO      : Sum_Left
+         2,23,9,1    <--- 86ns ---   1,2,4,2 : Lin FIFO      : Sum_Right
+         2,23,10,1   <--- 86ns ---   1,2,2,2 : Lin FIFO      : Sum_All
+
+ 
+           Station : 3,2   : VME JLab TI Module (Early Model)
+           --------------------------------------------------
+           Comment : Input channels 0-11. Output registers 0-7
+
+	 3,2,0,1    <--- 5ns  ---    1,6,6,1  : NIM-ECL       : Trigger_1 
+	 3,2,1,1    <--- 5ns  ---    1,6,4,1  : NIM-ECL       : Trigger_2 (vetoed) 
+	 3,2,5,1    <--- 8ns  ---    2,13,2,1 : NIM-ECL       : Helicity
+	 3,2,6,1    <--- 5ns  ---    1,6,1,1  : NIM-ECL       : Trigger veto
+	 3,2,7,1    <--- 5ns  ---    1,6,9,1  : NIM-ECL       : QRT - 1-st sync in a pattern 
+	 3,2,8-11 Inputs Empty  
+
+
+	 3,2,0,1     --- 5ns  --->   1,6,16,1  : NIM-ECL       : Reset veto
+	 3,2,1,1     --- 5ns  --->   1,6,3,1   : NIM-ECL       : Pulser enable ?
+	 3,2,2,1     --- 5ns  --->   2,11,13,1 : CAMAC PLU     : Disable trigger_1
+	 3,2,3-4 Outputs Empty
+12daq:CODA3
+	 3,2,5,1     --- 5ns  --->   2,13,11,1 : VME TIR       : LED TTL CLK load configuration	 	 
+	 3,2,6,1     --- 5ns  --->   2,13,9,1  : VME TIR       : LED TTL enable 0/disable 1 	 
+	 3,2,7,1     --- 5ns  --->   2,13,1,1  : VME TIR       : Scaler gate	 
+
+           Station : 3,8   : VME Scaler LeCroy 1151E
+           --------------------------------------------------
+           Comment : numeration :
+	 3,8,1,1     <--- 2ns ---    2,11,0,A    : PLU           : Sum_Left * MPS
+	 3,8,2,1     <--- 2ns ---    2,11,1,A    : PLU           : Sum_Right * MPS
+	 3,8,3,1     <--- 2ns ---    2,11,2,A    : PLU           : Coincidence * MPS
+	 3,8,4,1     <--- 2ns ---    2,11,3,A    : PLU           : Accidentals * MPS
+	 3,8,5,1     <--- 2ns ---    2,11,4,A    : PLU           : BCM * MPS
+	 3,8,6,1     <--- 2ns ---    2,11,6,A    : PLU 		 : (for LED setup) LED * MPS otherwise user configurable
+	 3,8,10,1    <--- 3ns ---    1,6,2,1     : NIM-ECL       : Clock*helicity
+	 3,8,11,1    <--- 5ns ---    1,6,5,1     : NIM-ECL       : Trigger_2
+	 3,8,12,1    <--- 2ns ---    2,11,5,A    : PLU           : For LED setup  LED*MPS
+	 3,8,15,1    <--- 3ns ---    2,13,8,1    : NIM-ECL       : Clock
+	 3,8,16,1    <--- 3ns ---    2,15,3,1    : NIM-ECL       : No input to NIM_ECL. Remove
+
+
+           Station : 3,10   : VME Scaler LeCroy 1151E
+           --------------------------------------------------
+           Comment : numeration :
+	 3,10,1,1     <--- 3ns ---    2,11,0,B  : PLU             : Sum_Left * MPS
+	 3,10,2,1     <--- 3ns ---    2,11,1,B  : PLU             : Sum_Right * MPS
+	 3,10,3,1     <--- 3ns ---    2,11,2,B  : PLU             : Coincidence * MPS
+	 3,10,4,1     <--- 3ns ---    2,11,3,B  : PLU             : Accidentals * MPS
+	 3,10,5,1     <--- 3ns ---    2,6,6,2   : CAMAC delay     : Sum_Cal_Left_Delayed
+	 3,10,6,1     <--- 3ns ---    2,6,2,2   : CAMAC delay     : Sum_Cal_Right
+	 3,10,7,1     <--- 3ns ---    2,6,3,2   : CAMAC delay     : Sum_Cal_All
+	 3,10,8,1     <--- 3ns ---    2,6,7,1   : CAMAC delay     : Sum_Scint_Left_delayed
+	 3,10,9,1     <--- 3ns ---    2,6,5,1   : CAMAC delay     : Sum_Scint_Right
+	 3,10,10,1    <--- 3ns ---    2,15,1,1  : NIM-ECL         : BPM 1H01 X-
+	 3,10,11,1    <--- 3ns ---    2,15,2,1  : NIM-ECL         : BPM 1H01 X+
+	 3,10,12,1    <--- 3ns ---    2,15,15,2 : NIM-ECL         : BPM 1H01 Y+
+	 3,10,13,1    <--- 3ns ---    2,15,14,2 : NIM-ECL         : BPM 1H01 Y-
+	 3,10,14,1    Empty
+	 3,10,15,1    Empty
+	 3,10,16,1    <--- 3ns ---    2,6,13,2   : CAMAC delay   : No input to NIM_ECL. Remove.
+	   Station : 4,4 : NIM Single Channel VtoF TTL Output
+	   --------------------------------------------------
+
+	 4,4,1,1  <--- 55ns  ---    BPM1H01 Y- analog signal cable from nearby rack 1H75B06
+	 4,4,1,1   --- 8ns  --->    2,15,14,2  : NIM-ECL TTL input : BPM 1H01 Y- converted to frequency
+
+
+	   Station : 4,5 : NIM Single Channel VtoF TTL Output
+	   --------------------------------------------------
+
+	 4,5,1,1  <--- 55ns  ---     BPM1H01 Y- analog signal cable from nearby rack 1H75B06
+	 4,5,1,1   --- 150cm --->    2,15,14,2  : NIM-ECL TTL input : BPM 1H01 Y- converted to frequency
+	   
+
+
+Removed unused cables list
+Patch Panel to 16 Channel Lecroy 4413 Discriminators in slots 2,20 and 2,21
+48 --> 2,21,16
+47 --> 2,21,15
+46 --> 2,21,14
+45 --> 2,21,13
+44 --> 2,21,12
+43 --> 2,21,11
+42 --> 2,21,10
+41 --> 2,21,9
+
+32 --> 2,20,13
+31 --> 2,20,12
+30 --> 2,20,11
+29 --> 2,21,7
+28 --> 2,21,8
+27 --> 2,21,6
+26 --> 2,21,5
+25 --> 2,21,4
+24 --> 2,21,3
+23 --> 2,20,10
+22 --> 2,20,9
+21 --> 2,20,8
+
+17 -->2,20,7
+16 -->2,20,6
+15 -->2,20,5
+14 -->2,20,4
+13 -->2,20,3
+12 -->2,20,2
+11 -->2,20,1
+10 --> 2,21,2
+9  --> 2,21,1
+
+Ribbon cable from LeCroy 4413 discriminator slot 2,20 to Lecroy 2277 TDC in slot 2,16
+2,20,1-16,Out1  --- 3ft ---> 2,16,0-15,In1 : Unused Discr to TDC connection removed.
+
+Ribbon cable from LeCroy 4413 discriminator slot 2,21 to Lecroy 2277 TDC in slot 2,9
+2,21,1-16,Out2  --- 3' ---> 2,16,16-31,In1 : Unused Discr to TDC connection removed.

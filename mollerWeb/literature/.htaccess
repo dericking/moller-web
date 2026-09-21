@@ -1,0 +1,6 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+RewriteRule ^literaturedocs/?$ docs/ [L]
+RewriteRule ^literaturedocs/(.*)$ docs/$1 [L]
+RewriteRule ^([^/]+\.pdf)$ docs/$1 [L]

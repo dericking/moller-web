@@ -1,0 +1,30 @@
+## CODA startup
+- '~/setcoda_2.5_brad' is a shell script that will set appropriate CODA environment
+  variables for the FADC moller readout.  It is designed to be 'source'd by a start_coda
+  script.  See next line.
+- Start coda using by running the '~/start_coda_brad' script
+  - it sources '~/setcoda_2.5_brad', then fires up the usual set of windows for ET, ER, EB, etc
+  - the script ends with information on how to open the ROC console if you need it
+
+## FlexIO board instead of TI board for interrupt generation
+- The FlexIO board generates and interrupt on the OR of the two possible trigger types
+  (Helicity Trigger and Data Trigger) and sends the ROC information on which triggers
+  were present through an array structure.  The interrupt routine in the CRL can decide
+  what to readout based on how the array vars are set (like a software IRQ handler).
+
+## CRL compilation 
+- The FADC crl must be compiled with a special makelist command located in
+    /adaqfs/home/moller/crl/FADC/makelist.local
+  Invoke it this way:
+    ./makelist.local fadcmoller_list.crl ppc -mlongcall
+
+## FADC HT trigger jumpers on backplane
+- P2 (bottom-most backplane connector) needs two ECL jumpers installed to feed a copy
+  of the HT trigger to the level converter board
+  - Connect FADC slot pair (D22+, D23-) to SD-FP slot pair (D21+, D22-).  'D'
+    is the right-most column on the P2 backplane connector.  The pins are
+    numbered 1 to 32 (top to bottom).
+
+## FADC HF (!MPS) input trigger min signal length
+- Helicity Flip (!MPS) pulse needs to be at least 20 microsecs long or the
+  FlexIO unit won't trigger on it correctly.

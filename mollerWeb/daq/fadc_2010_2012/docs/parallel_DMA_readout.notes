@@ -1,0 +1,46 @@
+Wed Mar  3 10:39:52 EST 2010
+
+We can run in a mode where the primary interrupt routine essentially
+'backgrounds' the DMA transfers from the FADC module rather than waiting for
+them to complete.  This frees up the CPU on the the V6100, allowing it to do
+other tasks in parallel.
+
+Requirements:
+  - 'special' kernel:  
+    /site/coda/kern/5.5/vx6100_v4.1veat
+  - use the updated mollerDmaLib, mollerFadcLib, flexIOlib
+    - mollerFADClib 
+      /site/coda/2.6/extensions/fadc/mollerDmaLib/
+      /site/coda/2.6/extensions/fadc/v1.2/
+    - see boot script example here:
+      /site/coda/2.6/extensions/fadc/mollerDmaLib/roc6_coda261_async.boot
+  - The readout list (CRL) is structured a little differently:
+    - CRL example:  
+      /site/coda/2.6/extensions/fadc/mollerDmaLib/gen_list.crl
+      - The nominal CRL is very simple.  It basically just pushes data around
+        in some internal buffers and does some internal bookkeeping.
+    - The heavy lifting, and bulk of the user code, is here:
+      /site/coda/2.6/extensions/fadc/mollerDmaLib/mollerUserLib.c
+      - Each CRL function (Go, End, Prestart, Trigger, etc...) has a twin here:
+        vmeUserEnd(), vmeUserPrestart(), ...
+      - The vmeUserXXXXX() functions are structure basically the same as you
+        would write the usual CRL code.  Note, however, the additional code
+        supporting the background DMA buffer handling, DMA status checking, and
+        the DMA hand-off in the vmeUserTrigger().
+      - *dma_bufp plays the role of *rol_bufp
+
+
+
+NOTES:
+- The development was done with the coda v2.6 ROC codebase.  It is not clear if
+  the v2.5 ROC binary will work. (It should, but we should watch for problems.)
+
+- The FADC DMA transfer should be the last thing that is done when handling
+  module readout in mollerUserLib.c (so read out other modules, FADC scalers
+  data, etc first).
+
+- We are not able to flush all of the data in the internal buffers at the end
+  of run (should only be a few events).   For the Moller DAQ application, this
+  does not matter.  It is just as if the run ended a few events before the user
+  clicked 'End'.
+

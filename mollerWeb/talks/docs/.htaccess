@@ -1,0 +1,5 @@
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+RewriteRule ^Q1_Field_map\.pdf$ /magnets/docs/Q1_Field_map.pdf [L]
+RewriteRule ^TOSCA_map\.pdf$ /magnets/docs/TOSCA_map.pdf [L]

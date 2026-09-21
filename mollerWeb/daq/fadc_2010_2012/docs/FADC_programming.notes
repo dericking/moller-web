@@ -1,0 +1,106 @@
+JLAB 250MHz Flash ADC Board Library - Moller Implementation
+------------------------------------------------------------
+
+   The JLAB FADC Library has been extended to support Hall A Moller
+polarimeter triggering and processing. The FADC generates internal triggers
+based on the 16 inputs. It is a single FADC design.
+
+   The Moller library extensions are included in the file mollerLib.c. This
+file is included in the standard library fadcLib.c and all files must be available to 
+build the Moller based library. One must define INCLUDE_MOLLER to build Moller extensions.
+See the example Makefile in the distribution.
+
+  The JLAB FADC trigger FPGA can be programmed via a a set of VME accessable 
+registers to define the internal triggering. The following library functions can be
+used to progam these registers:
+
+   int famSetSumThresh(int det, unsigned int lr, unsigned int val);
+
+Set the Left or Right side Sum threshhold for the calorimeter trigger
+    det = 0
+    lr  = 0 or 1
+    val = 0 - 0xfffff
+
+   int famSetSampleCount(int det, unsigned int lr, unsigned int val);
+
+Set the number of samples to sum from Left or Right side calorimeter signals
+    det = 0
+    lr  = 0 or 1
+    val = 3 - 63
+
+   int famSetPrescale(int det, unsigned int lr, unsigned int val);
+
+Set the Trigger Prescale factor for each of the three internal trigger types (CL, CR, CL*CR)
+    det = 0
+    lr  = 0 or 1 or 2
+    val = 1 - 2047
+
+   int famSetPulseWidth(int det, unsigned int lr, unsigned int val);
+
+Set the Pulse Width (in clock ticks - 4ns/tick) for signal inputs
+    det = 0,1,2,3,4
+    lr  = 0 or 1
+    val = 3 - 255     
+
+   int famSetDelay(int det, unsigned int lr, unsigned int val);
+
+Set the Delay (in clock ticks) for the signal inputs (and Scint coincidence)
+
+    det = 0,1,2,3,4,5
+    lr  = 0 or 1
+    val = 0 - 255   (4ns - 1024ns)
+
+   int famSetTrigWindow(unsigned int val);
+
+Set the Trigger coincidence window (in clock ticks) for each of the 3 trigger types
+
+    det = 0
+    lr  = 0 or 1 or 2
+    val = 0 - 255   (4ns - 1024ns)
+
+
+The parameters are:
+
+     det =   0   Calorimeter
+             1   Scint 1
+             2   Scint 2
+             3   Scint 3
+             4   Scint 4
+             5   ScintLeft * ScintRight
+
+     lr =    0   (Left)
+             1   (Right)
+             2   (Left * Right)
+
+
+Programming status of all the available registers can be seen with the following print
+command:
+
+-> faMollerStatus
+
+STATUS for MOLLER FADC in slot 5 at base address 0x90ed0000 
+---------------------------------------------------------- 
+Moller FPGA Firmware Rev/ID = 0x0801 
+Note: All values are in clock ticks (4ns/tick)
+
+                         Left               Right
+Sample Count                 3                    3    
+Sum Threshold              255                  255    
+Pulse Widths:
+   Calorimeter               3                    3     
+   Scint 1                   3                    3     
+   Scint 2                   3                    3     
+   Scint 3                   3                    3     
+   Scint 4                   3                    3     
+Delays     :
+   Calorimeter               0                    0     
+   Scint 1                   0                    0     
+   Scint 2                   0                    0     
+   Scint 3                   0                    0     
+   Scint 4                   0                    0     
+   SL*SR   :        0
+Cal Trigger Prescales:
+   Left: 1    Right: 1   CR*CL: 1
+value = 0 = 0x0
+-> 
+
