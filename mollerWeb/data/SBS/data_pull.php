@@ -44,6 +44,29 @@ function molpol_normalize_profile($profile) {
 }
 
 /**
+ * Does this row belong to the current experiment app?
+ * exact: PREX-II / CREX equality. prefix: original SBS strpos (SBS-GMn, …).
+ */
+function molpol_experiment_matches($rowExp, $expname = null, $profile = null) {
+    if ($expname === null || $expname === '') {
+        $expname = isset($GLOBALS['expname']) ? $GLOBALS['expname'] : '';
+    }
+    if ($profile === null || $profile === '') {
+        $profile = isset($GLOBALS['MOLPOL_PROFILE']) ? $GLOBALS['MOLPOL_PROFILE'] : 'exact';
+    }
+    $profile = molpol_normalize_profile($profile);
+    $rowExp = (string) $rowExp;
+    $expname = (string) $expname;
+    if ($expname === '') {
+        return false;
+    }
+    if ($profile === 'prefix') {
+        return strpos($rowExp, $expname) !== false;
+    }
+    return $rowExp === $expname;
+}
+
+/**
  * Run the classic data_pull queries and store into $_SESSION.
  *
  * Column lists match the production schema (SCHEMADUMP).

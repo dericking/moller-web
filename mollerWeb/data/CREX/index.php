@@ -24,7 +24,7 @@ function showdategrouptables($exp){
       if($rundeets['rundet_type']=='pending')      $listit=true;
       if($rundeets['rundet_type']=='spin_dance')   $listit=true;
 
-      if($listit==true && $rundeets['experiment']==$exp){
+      if($listit==true && molpol_experiment_matches($rundeets['experiment'], $exp)){
         if($rundeets['rundet_day'] != $day){
           $day=$rundeets['rundet_day'];
           $daycounter++;
