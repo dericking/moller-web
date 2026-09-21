@@ -2,18 +2,39 @@
 /**
  * Caretaker file — site title, base URL, home cards, and left nav.
  *
- * Edit $homeCards to change section tiles and the sidebar (same list, no
- * Home item — the sidebar brand already goes to index.php).
+ * Edit $homeCards for section tiles and the sidebar (no Home item — the
+ * sidebar brand already goes to index.php). Set 'home' => false on a row
+ * to keep it in the left nav only (no home-page card).
  *
  * $siteBase:
- *   Empty string when the site is at the web root (Docker: http://localhost:9000/).
- *   On hallaweb, set to '/equipment/moller' if you want root-relative links
- *   that work from any depth. Prefer site_url() in templates, not hard-coded paths.
+ *   Empty at the web root (Docker). '/equipment/moller' on hallaweb.
+ *   Taken from SCRIPT_NAME vs this tree, not DOCUMENT_ROOT (Alias makes
+ *   those two the same and CSS would go to /_assets/…).
+ *   Prefer site_url() in templates, not hard-coded paths.
  */
 
 $siteTitle = 'Hall-A Møller Polarimeter';
 
 $siteBase = '';
+$scriptName = isset($_SERVER['SCRIPT_NAME']) ? str_replace('\\', '/', $_SERVER['SCRIPT_NAME']) : '';
+if (defined('MOLLER_ROOT') && !empty($_SERVER['SCRIPT_FILENAME'])) {
+    $scriptFile = realpath($_SERVER['SCRIPT_FILENAME']);
+    $root = realpath(MOLLER_ROOT);
+    if ($scriptFile !== false && $root !== false) {
+        $rootPrefix = $root . DIRECTORY_SEPARATOR;
+        if (str_starts_with($scriptFile, $rootPrefix) || $scriptFile === $root) {
+            $rel = str_replace('\\', '/', substr($scriptFile, strlen($root)));
+            $rel = '/' . ltrim($rel, '/');
+            $relLen = strlen($rel);
+            if ($relLen > 1 && substr($scriptName, -$relLen) === $rel) {
+                $siteBase = substr($scriptName, 0, -$relLen);
+            }
+        }
+    }
+}
+if ($siteBase === '' && strpos($scriptName, '/equipment/moller/') === 0) {
+    $siteBase = '/equipment/moller';
+}
 
 $homeCards = [
     [

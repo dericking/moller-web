@@ -12,7 +12,11 @@ PageStart("index.php");
 
 <h2>Sections</h2>
 <div class="home-cards">
-  <?php foreach ($homeCards as $card): ?>
+  <?php foreach ($homeCards as $card):
+    if (isset($card['home']) && $card['home'] === false) {
+      continue;
+    }
+  ?>
   <a class="home-card" href="<?= htmlspecialchars(site_url($card['href']), ENT_QUOTES, 'UTF-8') ?>">
     <h2><?= htmlspecialchars($card['label'], ENT_QUOTES, 'UTF-8') ?></h2>
     <i class="<?= htmlspecialchars($card['icon'], ENT_QUOTES, 'UTF-8') ?>" aria-hidden="true"></i>
