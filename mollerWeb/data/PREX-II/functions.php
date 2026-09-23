@@ -216,7 +216,7 @@ function pagestartcommon(){
   $htmlout .= "<head>";
   $htmlout .= "<title>".$exptext." Møller Polarimetry Data</title>";
   $htmlout .= "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />";
-  $htmlout .= "<link rel='stylesheet' type='text/css' href='style.css?v=20260916f'>";
+  $htmlout .= "<link rel='stylesheet' type='text/css' href='style.css?v=20260923a'>";
   $htmlout .= "</head>";
   $htmlout .= "<body class='exp-page'>";
   return $htmlout;
@@ -266,7 +266,7 @@ function pageheaderhtml(){
   $htmlout .= "<head>";
   $htmlout .= "<title>".$exptext." Møller Polarimetry Data</title>";
   $htmlout .= "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />";
-  $htmlout .= "<link rel='stylesheet' type='text/css' href='style.css?v=20260916f'>";
+  $htmlout .= "<link rel='stylesheet' type='text/css' href='style.css?v=20260923a'>";
   $htmlout .= "</head>";
   $htmlout .= "<body class='exp-page'>";
   $htmlout .= pagetoplinks();
