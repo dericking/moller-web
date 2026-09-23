@@ -52,7 +52,7 @@ link_table('Related drawings', [
         'text' => 'A00000-02-04-0700 Rev D',
         'url'  => 'magnets/docs/A00000-02-04-0700RevD.pdf',
         'type' => 'PDF',
-        'date' => '19 December 2006',
+        'date' => '2006',
         'desc' => 'Møller dipole / detector assembly (drawing lives with the other beamline drawings under Magnets).',
     ],
 ]);
