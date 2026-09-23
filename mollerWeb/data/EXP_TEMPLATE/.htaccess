@@ -1,0 +1,13 @@
+.htaccess
+
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+
+<Files "README.md">
+    Require all denied
+</Files>
+
+<Files "style.css">
+    Require all denied
+</Files>
