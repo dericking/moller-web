@@ -32,8 +32,10 @@ include "functions.php";
       echo "<a href='showsettings.php?run=" . molpol_positive_int_id($run) . "'><button type='button' class='runbutton'>Run settings</button></a>";
       echo "</div>";
 
-      //$real_path="analysis/files/run_$run";
-      $real_path="../analysis/files/run_$run";
+      $runId = molpol_positive_int_id($run);
+      $plotPaths = molpol_run_plot_paths($runId);
+      $real_path = $plotPaths[0];
+      $runPlotsWeb = $plotPaths[1];
       $rundata = isset($_SESSION['rundata']) ? $_SESSION['rundata'] : array();
 
       echo "<div class='list-table-wrap'><table class='data-table data-table-runs' cellspacing='0' cellpadding='0'>";
@@ -50,15 +52,10 @@ include "functions.php";
       echo "</div>";
 
       echo sectionbanner("Most recent plots for run $run:");
-      $runId = molpol_positive_int_id($run);
-      echo molpol_render_plot_gallery(
-        dirname(__FILE__) . '/../analysis/files/run_' . $runId,
-        '../analysis/files/run_' . $runId . '/',
-        false
-      );
+      echo molpol_render_plot_gallery($real_path, $runPlotsWeb, false);
 
-      $errorfile = "$real_path/errors_$run.txt";
-      if (file_exists($errorfile)){
+      $errorfile = ($real_path === '') ? '' : rtrim($real_path, "/\\") . '/errors_' . $runId . '.txt';
+      if ($errorfile !== '' && file_exists($errorfile)){
         echo "<br /><table id='errortable'><tr><td>";
         echo nl2br( file_get_contents($errorfile) );
         echo "</td></tr></table>";

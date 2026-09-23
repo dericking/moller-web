@@ -195,6 +195,10 @@ function molpol_load_into_session($con, $expname, $profile) {
  */
 function molpol_ensure_data($expDir, $profile, $force = false) {
     global $expname, $explogo, $exptext, $expaggregatedglob, $molpol_profile, $con;
+    global $run_plots_web_base, $run_plots_fs_base;
+    global $group_plots_web_base, $group_plots_fs_base;
+    global $burst_plots_web_base, $burst_plots_fs_base;
+    global $aggregated_plots_web_base, $aggregated_plots_fs_base;
 
     molpol_session_start();
 
@@ -213,6 +217,14 @@ function molpol_ensure_data($expDir, $profile, $force = false) {
     $GLOBALS['explogo'] = $explogo;
     $GLOBALS['exptext'] = $exptext;
     $GLOBALS['expaggregatedglob'] = isset($expaggregatedglob) ? $expaggregatedglob : '';
+    $GLOBALS['run_plots_web_base'] = isset($run_plots_web_base) ? $run_plots_web_base : '../analysis/files/';
+    $GLOBALS['run_plots_fs_base'] = isset($run_plots_fs_base) ? $run_plots_fs_base : '';
+    $GLOBALS['group_plots_web_base'] = isset($group_plots_web_base) ? $group_plots_web_base : '../analysis/group/';
+    $GLOBALS['group_plots_fs_base'] = isset($group_plots_fs_base) ? $group_plots_fs_base : '';
+    $GLOBALS['burst_plots_web_base'] = isset($burst_plots_web_base) ? $burst_plots_web_base : '../analysis/burst/';
+    $GLOBALS['burst_plots_fs_base'] = isset($burst_plots_fs_base) ? $burst_plots_fs_base : '';
+    $GLOBALS['aggregated_plots_web_base'] = isset($aggregated_plots_web_base) ? $aggregated_plots_web_base : '../analysis/aggregated/';
+    $GLOBALS['aggregated_plots_fs_base'] = isset($aggregated_plots_fs_base) ? $aggregated_plots_fs_base : '';
     $need = $force
         || empty($_SESSION['rundata'])
         || !isset($_SESSION['molpol_exp'])
@@ -273,6 +285,103 @@ function molpol_positive_int_id($value) {
     }
     $n = (int) $s;
     return $n > 0 ? $n : 0;
+}
+
+/**
+ * Normalize a plot URL/path base to one trailing slash (or empty).
+ */
+function molpol_plots_base_slash($base) {
+    $base = trim((string) $base);
+    if ($base === '') {
+        return '';
+    }
+    return rtrim($base, '/') . '/';
+}
+
+/**
+ * Filesystem directory + web prefix for a plot folder.
+ *
+ * Relative web_base is resolved from the experiment folder (the historic
+ * ../analysis/files/run_{id} layout). Site-absolute web_base uses
+ * DOCUMENT_ROOT unless fs_base is set. http(s) web_base requires fs_base.
+ *
+ * @param string $fsBase   Absolute on-disk plots root, or empty
+ * @param string $webBase  URL prefix (img src)
+ * @param string $subdir   Folder under the root (empty = the root itself)
+ * @return array           array($fsDir, $webDir) — webDir has a trailing slash
+ */
+function molpol_resolve_plot_location($fsBase, $webBase, $subdir) {
+    $expDir = isset($GLOBALS['MOLPOL_EXP_DIR']) ? $GLOBALS['MOLPOL_EXP_DIR'] : dirname(__FILE__);
+    $webBase = molpol_plots_base_slash($webBase);
+    $subdir = trim((string) $subdir, '/');
+    $fsBase = trim((string) $fsBase);
+    $relFs = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $subdir);
+
+    if ($fsBase !== '') {
+        $fsDir = rtrim($fsBase, "/\\");
+        if ($relFs !== '') {
+            $fsDir .= DIRECTORY_SEPARATOR . $relFs;
+        }
+    } elseif ($webBase === '' || preg_match('#^https?://#i', $webBase)) {
+        $fsDir = '';
+    } elseif (substr($webBase, 0, 1) === '/') {
+        $docRoot = rtrim(isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '', "/\\");
+        $path = parse_url($webBase, PHP_URL_PATH);
+        if (!is_string($path) || $path === '') {
+            $path = $webBase;
+        }
+        $rel = trim(str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path), DIRECTORY_SEPARATOR);
+        $fsDir = $docRoot . DIRECTORY_SEPARATOR . $rel;
+        if ($relFs !== '') {
+            $fsDir .= DIRECTORY_SEPARATOR . $relFs;
+        }
+    } else {
+        $fsDir = $expDir . DIRECTORY_SEPARATOR . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, rtrim($webBase, '/'));
+        if ($relFs !== '') {
+            $fsDir .= DIRECTORY_SEPARATOR . $relFs;
+        }
+    }
+
+    $webDir = $webBase;
+    if ($subdir !== '') {
+        $webDir .= $subdir . '/';
+    }
+    return array($fsDir, $webDir);
+}
+
+/** @return array array($fsDir, $webDir) for run_{id} under the run plots root */
+function molpol_run_plot_paths($runId) {
+    $web = isset($GLOBALS['run_plots_web_base']) ? $GLOBALS['run_plots_web_base'] : '../analysis/files/';
+    $fs = isset($GLOBALS['run_plots_fs_base']) ? $GLOBALS['run_plots_fs_base'] : '';
+    return molpol_resolve_plot_location($fs, $web, 'run_' . (int) $runId);
+}
+
+/** @return array array($fsDir, $webDir) for group_{id} under the group plots root */
+function molpol_group_plot_paths($groupId) {
+    $web = isset($GLOBALS['group_plots_web_base']) ? $GLOBALS['group_plots_web_base'] : '../analysis/group/';
+    $fs = isset($GLOBALS['group_plots_fs_base']) ? $GLOBALS['group_plots_fs_base'] : '';
+    return molpol_resolve_plot_location($fs, $web, 'group_' . (int) $groupId);
+}
+
+/** @return array array($fsDir, $webDir) for aggregated experiment plots */
+function molpol_aggregated_plot_paths() {
+    $web = isset($GLOBALS['aggregated_plots_web_base']) ? $GLOBALS['aggregated_plots_web_base'] : '../analysis/aggregated/';
+    $fs = isset($GLOBALS['aggregated_plots_fs_base']) ? $GLOBALS['aggregated_plots_fs_base'] : '';
+    return molpol_resolve_plot_location($fs, $web, '');
+}
+
+/**
+ * Burst comparison PNG for a group.
+ *
+ * @return array array($fsFile, $webSrc)
+ */
+function molpol_burst_plot_file($groupId) {
+    $web = isset($GLOBALS['burst_plots_web_base']) ? $GLOBALS['burst_plots_web_base'] : '../analysis/burst/';
+    $fs = isset($GLOBALS['burst_plots_fs_base']) ? $GLOBALS['burst_plots_fs_base'] : '';
+    $resolved = molpol_resolve_plot_location($fs, $web, '');
+    $name = 'Burst_Comparison_Group_' . (int) $groupId . '.png';
+    $fsFile = ($resolved[0] === '') ? '' : rtrim($resolved[0], "/\\") . DIRECTORY_SEPARATOR . $name;
+    return array($fsFile, $resolved[1] . $name);
 }
 
 /**

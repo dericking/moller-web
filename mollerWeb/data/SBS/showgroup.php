@@ -13,10 +13,9 @@ require_once __DIR__ . '/data_pull.php';
             echo "<h2>Fit Summary on grouping ".$group.":</h2>";
             echo groupfitsummary($groupdeets);
             $groupId = molpol_positive_int_id($group);
-            $burstFs = dirname(__FILE__) . '/../analysis/burst/Burst_Comparison_Group_' . $groupId . '.png';
-            if ($groupId > 0 && is_file($burstFs)) {
-              $burstSrc = '../analysis/burst/Burst_Comparison_Group_' . $groupId . '.png';
-              echo "<img src='" . htmlspecialchars($burstSrc, ENT_QUOTES, 'UTF-8') . "' alt='' class='burst-plot'><br />";
+            $burst = molpol_burst_plot_file($groupId);
+            if ($groupId > 0 && $burst[0] !== '' && is_file($burst[0])) {
+              echo "<img src='" . htmlspecialchars($burst[1], ENT_QUOTES, 'UTF-8') . "' alt='' class='burst-plot'><br />";
             }
             break;
         }
@@ -45,11 +44,8 @@ require_once __DIR__ . '/data_pull.php';
 
     echo sectionbanner("Most recent plots for grouping $group:");
     $groupId = molpol_positive_int_id($group);
-    echo molpol_render_plot_gallery(
-      dirname(__FILE__) . '/../analysis/group/group_' . $groupId,
-      '../analysis/group/group_' . $groupId . '/',
-      true
-    );
+    $groupPlots = molpol_group_plot_paths($groupId);
+    echo molpol_render_plot_gallery($groupPlots[0], $groupPlots[1], true);
 
   }
 

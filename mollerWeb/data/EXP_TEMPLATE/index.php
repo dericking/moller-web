@@ -107,11 +107,8 @@ function showdategrouptables($exp){
     echo "</div><!-- end day-tables -->\n";
 
     echo sectionbanner("Aggregated Result Plots for ".$exp);
-    echo molpol_render_aggregated_plot_gallery(
-      dirname(__FILE__) . '/../analysis/aggregated',
-      '../analysis/aggregated/',
-      $exp
-    );
+    $aggPlots = molpol_aggregated_plot_paths();
+    echo molpol_render_aggregated_plot_gallery($aggPlots[0], $aggPlots[1], $exp);
   }
 
 //echo "header('Content-Type: text/plain')";

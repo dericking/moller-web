@@ -24,7 +24,8 @@ This directory is the live-app template (PREX-II / CREX / SBS). It is **not** a 
 | `$exptext` | Title in the page header, e.g. `PREX-II (2019)`. |
 | `$explogo` | Filename of the 128×128 PNG in this directory. |
 | `$molpol_profile` | `'exact'` — `experiment LIKE '{expname}'` (PREX-II, CREX, and most new copies). `'prefix'` — `experiment LIKE '{expname}%'` and include `commiss` run types (SBS). `'sbs'` / `'contains'` are aliases of `'prefix'`. |
-| `$expaggregatedglob` | Basename glob under `data/analysis/aggregated/`, e.g. `aggregated_prex_*.png`. Empty string = no aggregated plots. Must match `aggregated_[letters-or-digits]_*.png`. |
+| `$expaggregatedglob` | Basename glob under the aggregated plots root, e.g. `aggregated_prex_*.png`. Empty string = no aggregated plots. Must match `aggregated_[letters-or-digits]_*.png`. |
+| `$run_plots_web_base` / `$run_plots_fs_base` | Run-plot root. Images are `{base}/run_{id}/*.png`. Default web base `../analysis/files/` (from this folder). Leave `fs_base` empty to resolve a relative web base from this folder; set `fs_base` when plots live elsewhere or the web base is an `http(s)` URL. Same pair exists for `$group_plots_*` (`group_{id}/`), `$burst_plots_*` (`Burst_Comparison_Group_{id}.png`), and `$aggregated_plots_*`. |
 
 Each experiment folder has its own `db_credentials.php` (gitignored). Copy from `db_credentials.php.example`. Docker uses `MOLPOL_USE_TESTING_DB` / `/.dockerenv`; production uses the else-branch so be sure to edit it properly.
 
